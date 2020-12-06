@@ -1,3 +1,3 @@
 # TheCastle-OpenGL
 
-##### Code is in directory *AssimpSample*
+###### Code is in directory *AssimpSample*
