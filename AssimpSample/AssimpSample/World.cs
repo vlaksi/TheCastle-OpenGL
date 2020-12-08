@@ -54,7 +54,7 @@ namespace AssimpSample
         /// <summary>
         ///	 Udaljenost scene od kamere.
         /// </summary>
-        private float m_sceneDistance = 7000.0f;
+        private float m_sceneDistance = 100.0f;
 
         /// <summary>
         ///	 Sirina OpenGL kontrole u pikselima.
@@ -159,7 +159,7 @@ namespace AssimpSample
             gl.Color(1f, 0f, 0f);
             // Model sencenja na flat (konstantno)
             gl.ShadeModel(OpenGL.GL_FLAT);
-            gl.Enable(OpenGL.GL_DEPTH_TEST);
+            gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
             m_scene.LoadScene();
             m_scene.Initialize();
         }
@@ -192,7 +192,7 @@ namespace AssimpSample
             m_height = height;
             gl.MatrixMode(OpenGL.GL_PROJECTION);      // selektuj Projection Matrix
             gl.LoadIdentity();
-            gl.Perspective(45f, (double)width / height, 0.1f, 20000f);
+            gl.Perspective(45f, (double)width / height, 0.1f, 200000f);
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             gl.LoadIdentity();                // resetuj ModelView Matrix
         }
