@@ -198,26 +198,13 @@ namespace AssimpSample
         {
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            gl.PushMatrix();
-            gl.Translate(10.0f, 10.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(5f, 5f, 5f);                          // povecavam malo strelu, jer je dosta mala
-            m_scene_arrow.Draw();
-            gl.PopMatrix();
+            ManipulacijaStrelom(gl);
 
-            gl.PushMatrix();
-            gl.Translate(0.0f, 0.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(2f, 2f, 2f);                          // povecavam malo strelu, jer je dosta mala
-            m_scene_castle.Draw();
-            gl.PopMatrix();
+            ManipulacijaDvorcem(gl);
 
             // Oznaci kraj iscrtavanja
             gl.Flush();
         }
-
 
         /// <summary>
         /// Podesava viewport i projekciju za OpenGL kontrolu.
@@ -259,5 +246,31 @@ namespace AssimpSample
         }
 
         #endregion IDisposable metode
+
+        #region Moje pomocne metode
+
+        private void ManipulacijaDvorcem(OpenGL gl)
+        {
+            gl.PushMatrix();
+            gl.Translate(0.0f, 0.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(2f, 2f, 2f); // povecavam malo strelu, jer je dosta mala
+            m_scene_castle.Draw();
+            gl.PopMatrix();
+        }
+
+        private void ManipulacijaStrelom(OpenGL gl)
+        {
+            gl.PushMatrix();
+            gl.Translate(10.0f, 10.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
+            m_scene_arrow.Draw();
+            gl.PopMatrix();
+        }
+
+        #endregion
     }
 }
