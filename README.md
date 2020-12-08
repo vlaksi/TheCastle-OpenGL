@@ -1,11 +1,20 @@
 # TheCastle-OpenGL
 
+###### Kod je u direktorijumu *AssimpSample*
+
 <details>
   <summary> Wireframe </summary> <br>
   
 ![image](https://user-images.githubusercontent.com/45834270/101497378-2f226800-396b-11eb-98c6-f92398f7e597.png)
 </details>
 
+<details>
+  <summary> Korisne reference </summary> <br>
+  
+  - pogodan [sajt](https://free3d.com/) za izbor 3D modela 
+</details>
+
+<br><br>
 <details>
   <summary> Tehnicki problemi </summary> <br>
 
@@ -38,5 +47,3 @@ Za ovakav 3D Models, ako sam u **rezimu debug**, potrebno je da u direktorijum b
 </details>
 
 </details>
-
-###### Kod je u direktorijumu *AssimpSample*
