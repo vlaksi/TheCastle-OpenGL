@@ -199,14 +199,21 @@ namespace AssimpSample
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
             gl.PushMatrix();
+            gl.Translate(10.0f, 10.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(5f, 5f, 5f);                          // povecavam malo strelu, jer je dosta mala
+            m_scene_arrow.Draw();
+            gl.PopMatrix();
+
+            gl.PushMatrix();
             gl.Translate(0.0f, 0.0f, -m_sceneDistance);
             gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
             gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(50f,50f,50f);                          // povecavam malo strelu, jer je dosta mala
-
-            m_scene_arrow.Draw();
+            gl.Scale(2f, 2f, 2f);                          // povecavam malo strelu, jer je dosta mala
             m_scene_castle.Draw();
             gl.PopMatrix();
+
             // Oznaci kraj iscrtavanja
             gl.Flush();
         }
