@@ -1,0 +1,23 @@
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpLib\Assimp32.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpLib\Assimp64.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpLib\AssimpNet.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\3D Models\Touareg\Touareg.3DS
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpSample.exe.config
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpSample.exe
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpSample.pdb
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\AssimpNet.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\SharpGL.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\SharpGL.SceneGraph.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\bin\Release\SharpGL.WPF.dll
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\MainWindow.baml
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\MainWindow.g.cs
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\App.g.cs
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample_Content.g.cs
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample_MarkupCompile.cache
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.g.resources
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.Properties.Resources.resources
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.csproj.GenerateResource.cache
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.csproj.CoreCompileInputs.cache
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.csproj.CopyComplete
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.exe
+C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Release\AssimpSample.pdb
