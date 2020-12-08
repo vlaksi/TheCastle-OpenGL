@@ -11,7 +11,9 @@
 <details>
   <summary> Korisne reference </summary> <br>
   
-  - pogodan [sajt](https://free3d.com/) za izbor 3D modela 
+  - pogodni sajtovi za izbor 3D modela 
+    - [sajt](https://clara.io/library)
+    - [sajt](https://free3d.com/) 
 </details>
 
 <br><br>
