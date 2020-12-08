@@ -160,6 +160,7 @@ namespace AssimpSample
             // Model sencenja na flat (konstantno)
             gl.ShadeModel(OpenGL.GL_FLAT);
             gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
+            gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
             m_scene.LoadScene();
             m_scene.Initialize();
         }
