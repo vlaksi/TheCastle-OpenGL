@@ -176,6 +176,7 @@ namespace AssimpSample
             gl.Translate(0.0f, 0.0f, -m_sceneDistance);
             gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
             gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(50f,50f,50f);                          // povecavam malo strelu, jer je dosta mala
 
             m_scene.Draw();
             gl.PopMatrix();
