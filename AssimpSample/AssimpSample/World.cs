@@ -191,11 +191,12 @@ namespace AssimpSample
         {
             m_width = width;
             m_height = height;
-            gl.MatrixMode(OpenGL.GL_PROJECTION);      // selektuj Projection Matrix
+            gl.Viewport(0,0,m_width,m_height);      // kreiranje viewport-a po celom prozoru
+            gl.MatrixMode(OpenGL.GL_PROJECTION);        // selektuj Projection Matrix
             gl.LoadIdentity();
             gl.Perspective(60f, (double)width / height, 1f, 20000f);
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
-            gl.LoadIdentity();                // resetuj ModelView Matrix
+            gl.LoadIdentity();                          // resetuj ModelView Matrix
         }
 
         /// <summary>
