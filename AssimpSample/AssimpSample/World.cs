@@ -198,9 +198,10 @@ namespace AssimpSample
         {
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            KreiranjePodloge(gl);
+            ManipulacijaPodlogom(gl);
             ManipulacijaStrelom(gl);
             ManipulacijaDvorcem(gl);
+            ManipulacijaStazom(gl);
 
             // Oznaci kraj iscrtavanja
             gl.Flush();
@@ -249,7 +250,28 @@ namespace AssimpSample
 
         #region Moje pomocne metode
 
-        private void KreiranjePodloge(OpenGL gl)
+        private void ManipulacijaStazom(OpenGL gl)
+        {
+            gl.PushMatrix();
+
+            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+
+            var visina = 50.0f;
+            var sirina = 2.5f;
+
+            gl.Begin(OpenGL.GL_QUADS);
+            gl.Vertex(-sirina, -sirina);
+            gl.Vertex(-sirina, -visina);
+            gl.Vertex(sirina, -visina);
+            gl.Vertex(sirina, -sirina);
+            gl.End();
+
+            gl.PopMatrix();
+        }
+
+        private void ManipulacijaPodlogom(OpenGL gl)
         {
             gl.PushMatrix();
             gl.Translate(0.0f, 0.0f, -m_sceneDistance);
