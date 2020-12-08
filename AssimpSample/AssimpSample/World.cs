@@ -202,6 +202,7 @@ namespace AssimpSample
             ManipulacijaStrelom(gl);
             ManipulacijaDvorcem(gl);
             ManipulacijaStazom(gl);
+            ManipulacijaZastitnimZidovima(gl);
 
             // Oznaci kraj iscrtavanja
             gl.Flush();
@@ -250,6 +251,49 @@ namespace AssimpSample
 
         #region Moje pomocne metode
 
+        private void ManipulacijaZastitnimZidovima(OpenGL gl)
+        {
+            var koeficjentSkaliranja = 10.0f;
+            gl.Disable(OpenGL.GL_CULL_FACE);
+
+            gl.PushMatrix();
+            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(25.0f, 1.0f, 7.0f);
+            gl.Translate(0.0f, 25.0f, 1.0f);
+
+            Cube zidIzaDvorca = new Cube();
+            zidIzaDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
+            gl.PopMatrix();
+
+
+            gl.PushMatrix();
+            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(1.0f, -26.0f, 7.0f);
+            gl.Translate(-25.0f, 0.0f, 1.0f);
+
+            Cube zidLevoOdDvorca = new Cube();
+            zidLevoOdDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
+            gl.PopMatrix();
+
+            gl.PushMatrix();
+            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(1.0f, 26.0f, 7.0f);
+            gl.Translate(25.0f, 0.0f, 1.0f);
+
+            Cube zidDesnoOdDvorca = new Cube();
+            zidDesnoOdDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
+            gl.PopMatrix();
+
+            gl.Enable(OpenGL.GL_CULL_FACE);
+
+        }
+
         private void ManipulacijaStazom(OpenGL gl)
         {
             gl.PushMatrix();
@@ -273,6 +317,8 @@ namespace AssimpSample
 
         private void ManipulacijaPodlogom(OpenGL gl)
         {
+            gl.Disable(OpenGL.GL_CULL_FACE);
+
             gl.PushMatrix();
             gl.Translate(0.0f, 0.0f, -m_sceneDistance);
             gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
@@ -289,6 +335,7 @@ namespace AssimpSample
             gl.End();
 
             gl.PopMatrix();
+            gl.Enable(OpenGL.GL_CULL_FACE);
         }
 
         private void ManipulacijaDvorcem(OpenGL gl)
