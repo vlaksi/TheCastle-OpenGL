@@ -39,7 +39,12 @@ namespace AssimpSample
         /// <summary>
         ///	 Scena koja se prikazuje.
         /// </summary>
-        private AssimpScene m_scene;
+        private AssimpScene m_scene_arrow;
+
+        /// <summary>
+        ///	 Scena koja se prikazuje.
+        /// </summary>
+        private AssimpScene m_scene_castle;
 
         /// <summary>
         ///	 Ugao rotacije sveta oko X ose.
@@ -73,10 +78,20 @@ namespace AssimpSample
         /// <summary>
         ///	 Scena koja se prikazuje.
         /// </summary>
-        public AssimpScene Scene
+        public AssimpScene SceneArrow
         {
-            get { return m_scene; }
-            set { m_scene = value; }
+            get { return m_scene_arrow; }
+            set { m_scene_arrow = value; }
+        }
+        //m_scene_castle
+
+        /// <summary>
+        ///	 Scena koja se prikazuje.
+        /// </summary>
+        public AssimpScene SceneCastle
+        {
+            get { return m_scene_castle; }
+            set { m_scene_castle = value; }
         }
 
         /// <summary>
@@ -133,7 +148,16 @@ namespace AssimpSample
         /// </summary>
         public World(String scenePath, String sceneFileName, int width, int height, OpenGL gl)
         {
-            this.m_scene = new AssimpScene(scenePath, sceneFileName, gl);
+
+            // Inicijalizacija scene za arrow i castle: OVDE SAM ISKULIRAO STA SE PROSLEDI IZ MAIN-A ZA PUTANJE, JER MORAM DVE SCENE TJ DVA MODELA UCITATI
+            var scenePathForArrow = scenePath + "\\Arrow"; 
+            sceneFileName = "Arrow.dae";
+            this.m_scene_arrow = new AssimpScene(scenePathForArrow, sceneFileName, gl);
+
+            var scenePathForCastle = scenePath + "\\Castle"; 
+            sceneFileName = "CastleModel.obj";
+            this.m_scene_castle = new AssimpScene(scenePathForCastle, sceneFileName, gl);
+
             this.m_width = width;
             this.m_height = height;
         }
@@ -161,8 +185,10 @@ namespace AssimpSample
             gl.ShadeModel(OpenGL.GL_FLAT);
             gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
             gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
-            m_scene.LoadScene();
-            m_scene.Initialize();
+            m_scene_arrow.LoadScene();
+            m_scene_arrow.Initialize();
+            m_scene_castle.LoadScene();
+            m_scene_castle.Initialize();
         }
 
         /// <summary>
@@ -178,7 +204,8 @@ namespace AssimpSample
             gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
             gl.Scale(50f,50f,50f);                          // povecavam malo strelu, jer je dosta mala
 
-            m_scene.Draw();
+            m_scene_arrow.Draw();
+            m_scene_castle.Draw();
             gl.PopMatrix();
             // Oznaci kraj iscrtavanja
             gl.Flush();
@@ -207,7 +234,7 @@ namespace AssimpSample
         {
             if (disposing)
             {
-                m_scene.Dispose();
+                m_scene_arrow.Dispose();
             }
         }
 
