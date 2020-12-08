@@ -192,7 +192,7 @@ namespace AssimpSample
             m_height = height;
             gl.MatrixMode(OpenGL.GL_PROJECTION);      // selektuj Projection Matrix
             gl.LoadIdentity();
-            gl.Perspective(45f, (double)width / height, 0.1f, 200000f);
+            gl.Perspective(60f, (double)width / height, 1f, 20000f);
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             gl.LoadIdentity();                // resetuj ModelView Matrix
         }

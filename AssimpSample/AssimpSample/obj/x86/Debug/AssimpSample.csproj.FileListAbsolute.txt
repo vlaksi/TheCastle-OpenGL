@@ -21,4 +21,3 @@ C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj
 C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csproj.CopyComplete
 C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.exe
 C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.pdb
-C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csprojAssemblyReference.cache
