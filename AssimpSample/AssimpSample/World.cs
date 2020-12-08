@@ -186,9 +186,10 @@ namespace AssimpSample
             gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.Color(1f, 0f, 0f);
             // Model sencenja na flat (konstantno)
-            gl.ShadeModel(OpenGL.GL_FLAT);
+            //gl.ShadeModel(OpenGL.GL_FLAT);
             gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
             gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
+            gl.FrontFace(OpenGL.GL_CW);
             m_scene_arrow.LoadScene();
             m_scene_arrow.Initialize();
             m_scene_castle.LoadScene();
@@ -207,6 +208,7 @@ namespace AssimpSample
             ManipulacijaDvorcem(gl);
             ManipulacijaStazom(gl);
             ManipulacijaZastitnimZidovima(gl);
+            ManipulacijaTekstom(gl);
 
             // Oznaci kraj iscrtavanja
             gl.Flush();
@@ -223,7 +225,7 @@ namespace AssimpSample
             gl.MatrixMode(OpenGL.GL_PROJECTION);        // selektuj Projection Matrix
             gl.LoadIdentity();
             gl.Perspective(60f, (double)width / height, 1f, 20000f);
-            gl.MatrixMode(OpenGL.GL_MODELVIEW);
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);         // prebacujemo se da transformisemo matricu nad nasim modelima
             gl.LoadIdentity();                          // resetuj ModelView Matrix
         }
 
@@ -253,7 +255,71 @@ namespace AssimpSample
 
         #endregion IDisposable metode
 
+
         #region Moje pomocne metode
+
+        private void ManipulacijaTekstom(OpenGL gl)
+        {
+            //TODO: Proveriti zasto se nista ne desava sta god da promenim za x,y, i ja sam zapravo bez ovog viewporta namestio da iscrtavam dole desno
+            // kako to da resim uz pomoc viewporta, nije mi jasno zasto ne reaguje
+            #region Postavljanje gluOrtho2D
+            gl.Viewport(0, 0, m_width, m_height);
+            gl.MatrixMode(OpenGL.GL_PROJECTION);
+            gl.LoadIdentity();
+            gl.Ortho2D(-1.0f, 1.0f, -1.0f, 1.0f);
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);
+            #endregion
+
+            #region Iscrtavanje teksta
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Disable(OpenGL.GL_CULL_FACE);
+
+            gl.PushMatrix();
+            gl.Translate(0.4f, -0.75f, 0.0f);
+            gl.Scale(0.05f, 0.05f, 0.05f);
+            gl.DrawText3D("Verdana", 14f, 1f, 1f, "Predmet:Racunarska grafika");
+            gl.PopMatrix();
+
+            gl.PushMatrix();
+            gl.Translate(0.4f, -0.80f, 0.0f);
+            gl.Scale(0.05f, 0.05f, 0.05f);
+            gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Sk.god: 2020/21. ");
+            gl.PopMatrix();
+
+            gl.PushMatrix();
+            gl.Translate(0.4f, -0.85f, 0.0f);
+            gl.Scale(0.05f, 0.05f, 0.05f);
+            gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Ime: Vladislav");
+            gl.PopMatrix();
+
+            gl.PushMatrix();
+            gl.Translate(0.4f, -0.90f, 0.0f);
+            gl.Scale(0.05f, 0.05f, 0.05f);
+            gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Prezime: Maksimovic");
+            gl.PopMatrix();
+
+            gl.PushMatrix();
+            gl.Translate(0.4f, -0.95f, 0.0f);
+            gl.Scale(0.05f, 0.05f, 0.05f);
+            gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Sifra zad: PF1S3.2");
+            gl.PopMatrix();
+
+            gl.Enable(OpenGL.GL_CULL_FACE);
+
+
+            #endregion
+
+            #region Vracanje na staru projekciju
+            // TODO: Proveriti zasto opet moram da radim ovo, zar nije bilo dovoljno popovati ?
+            gl.Viewport(0, 0, m_width, m_height);      // kreiranje viewport-a po celom prozoru
+            gl.MatrixMode(OpenGL.GL_PROJECTION);        // selektuj Projection Matrix
+            gl.LoadIdentity();
+            gl.Perspective(60f, (double)m_width / m_height, 1f, 20000f);
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);         // prebacujemo se da transformisemo matricu nad nasim modelima
+            gl.LoadIdentity();                          // resetuj ModelView Matrix
+            #endregion
+
+        }
 
         private void ManipulacijaZastitnimZidovima(OpenGL gl)
         {
@@ -268,6 +334,8 @@ namespace AssimpSample
 
         private void ManipulacijaStazom(OpenGL gl)
         {
+            gl.Disable(OpenGL.GL_CULL_FACE);
+
             gl.PushMatrix();
 
             gl.Translate(0.0f, 1.0f, -m_sceneDistance);
@@ -285,6 +353,8 @@ namespace AssimpSample
             gl.End();
 
             gl.PopMatrix();
+
+            gl.Enable(OpenGL.GL_CULL_FACE);
         }
 
         private void ManipulacijaPodlogom(OpenGL gl)
