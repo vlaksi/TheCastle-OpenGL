@@ -14,6 +14,7 @@ using SharpGL.SceneGraph.Primitives;
 using SharpGL.SceneGraph.Quadrics;
 using SharpGL.SceneGraph.Core;
 using SharpGL;
+using AssimpSample.Services;
 
 namespace AssimpSample
 {
@@ -70,6 +71,8 @@ namespace AssimpSample
         ///	 Visina OpenGL kontrole u pikselima.
         /// </summary>
         private int m_height;
+
+        private readonly WallFactory _wallFactory;
 
         #endregion Atributi
 
@@ -150,16 +153,17 @@ namespace AssimpSample
         {
 
             // Inicijalizacija scene za arrow i castle: OVDE SAM ISKULIRAO STA SE PROSLEDI IZ MAIN-A ZA PUTANJE, JER MORAM DVE SCENE TJ DVA MODELA UCITATI
-            var scenePathForArrow = scenePath + "\\Arrow"; 
+            var scenePathForArrow = scenePath + "\\Arrow";
             sceneFileName = "Arrow.dae";
             this.m_scene_arrow = new AssimpScene(scenePathForArrow, sceneFileName, gl);
 
-            var scenePathForCastle = scenePath + "\\Castle"; 
+            var scenePathForCastle = scenePath + "\\Castle";
             sceneFileName = "CastleModel.obj";
             this.m_scene_castle = new AssimpScene(scenePathForCastle, sceneFileName, gl);
 
             this.m_width = width;
             this.m_height = height;
+            _wallFactory = new WallFactory(this);
         }
 
         /// <summary>
@@ -215,7 +219,7 @@ namespace AssimpSample
         {
             m_width = width;
             m_height = height;
-            gl.Viewport(0,0,m_width,m_height);      // kreiranje viewport-a po celom prozoru
+            gl.Viewport(0, 0, m_width, m_height);      // kreiranje viewport-a po celom prozoru
             gl.MatrixMode(OpenGL.GL_PROJECTION);        // selektuj Projection Matrix
             gl.LoadIdentity();
             gl.Perspective(60f, (double)width / height, 1f, 20000f);
@@ -253,45 +257,13 @@ namespace AssimpSample
 
         private void ManipulacijaZastitnimZidovima(OpenGL gl)
         {
-            var koeficjentSkaliranja = 10.0f;
             gl.Disable(OpenGL.GL_CULL_FACE);
 
-            gl.PushMatrix();
-            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(25.0f, 1.0f, 7.0f);
-            gl.Translate(0.0f, 25.0f, 1.0f);
-
-            Cube zidIzaDvorca = new Cube();
-            zidIzaDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
-            gl.PopMatrix();
-
-
-            gl.PushMatrix();
-            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(1.0f, -26.0f, 7.0f);
-            gl.Translate(-25.0f, 0.0f, 1.0f);
-
-            Cube zidLevoOdDvorca = new Cube();
-            zidLevoOdDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
-            gl.PopMatrix();
-
-            gl.PushMatrix();
-            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(1.0f, 26.0f, 7.0f);
-            gl.Translate(25.0f, 0.0f, 1.0f);
-
-            Cube zidDesnoOdDvorca = new Cube();
-            zidDesnoOdDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
-            gl.PopMatrix();
+            _wallFactory.RenderovanjeZidaIzaDvorca(gl);
+            _wallFactory.RenderovanjeZidaLevoOdDvorca(gl);
+            _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl);
 
             gl.Enable(OpenGL.GL_CULL_FACE);
-
         }
 
         private void ManipulacijaStazom(OpenGL gl)
@@ -344,7 +316,7 @@ namespace AssimpSample
             gl.Translate(0.0f, 0.0f, -m_sceneDistance);
             gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
             gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(2f, 2f, 2f); 
+            gl.Scale(2f, 2f, 2f);
             m_scene_castle.Draw();
             gl.PopMatrix();
         }
