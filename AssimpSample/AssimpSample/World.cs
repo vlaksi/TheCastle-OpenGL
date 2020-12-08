@@ -198,8 +198,8 @@ namespace AssimpSample
         {
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
+            KreiranjePodloge(gl);
             ManipulacijaStrelom(gl);
-
             ManipulacijaDvorcem(gl);
 
             // Oznaci kraj iscrtavanja
@@ -249,13 +249,33 @@ namespace AssimpSample
 
         #region Moje pomocne metode
 
+        private void KreiranjePodloge(OpenGL gl)
+        {
+            gl.PushMatrix();
+            gl.Translate(0.0f, 0.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+
+            var koeficijentVelicinePodloge = 5;
+            var baznaKordinata = 10.0f;
+            gl.Color(0.72f, 1.0f, 0.8f);        // rgb(186,255,205) - ali Color metoda ocekuje vrednosti od 0-1 pa sam skalirao na taj opseg
+            gl.Begin(OpenGL.GL_QUADS);
+            gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
+            gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
+            gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, baznaKordinata * koeficijentVelicinePodloge);
+            gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, baznaKordinata * koeficijentVelicinePodloge);
+            gl.End();
+
+            gl.PopMatrix();
+        }
+
         private void ManipulacijaDvorcem(OpenGL gl)
         {
             gl.PushMatrix();
             gl.Translate(0.0f, 0.0f, -m_sceneDistance);
             gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
             gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
-            gl.Scale(2f, 2f, 2f); // povecavam malo strelu, jer je dosta mala
+            gl.Scale(2f, 2f, 2f); 
             m_scene_castle.Draw();
             gl.PopMatrix();
         }
