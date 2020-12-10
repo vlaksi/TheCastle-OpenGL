@@ -15,9 +15,6 @@ namespace AssimpSample.Services
         public void RenderovanjeZidaDesnoOdDvorca(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Translate(0.0f, 1.0f, -_world.SceneDistance);
-            gl.Rotate(_world.RotationX, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(_world.RotationY, 0.0f, 1.0f, 0.0f);
             gl.Scale(1.0f, 26.0f, 7.0f);
             gl.Translate(25.0f, 0.0f, 1.0f);
 
@@ -29,9 +26,6 @@ namespace AssimpSample.Services
         public void RenderovanjeZidaLevoOdDvorca(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Translate(0.0f, 1.0f, -_world.SceneDistance);
-            gl.Rotate(_world.RotationX, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(_world.RotationY, 0.0f, 1.0f, 0.0f);
             gl.Scale(1.0f, -26.0f, 7.0f);
             gl.Translate(-25.0f, 0.0f, 1.0f);
 
@@ -43,9 +37,6 @@ namespace AssimpSample.Services
         public void RenderovanjeZidaIzaDvorca(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Translate(0.0f, 1.0f, -_world.SceneDistance);
-            gl.Rotate(_world.RotationX, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(_world.RotationY, 0.0f, 1.0f, 0.0f);
             gl.Scale(25.0f, 1.0f, 7.0f);
             gl.Translate(0.0f, 25.0f, 1.0f);
 

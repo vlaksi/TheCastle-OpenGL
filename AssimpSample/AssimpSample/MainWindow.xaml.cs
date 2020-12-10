@@ -82,7 +82,7 @@ namespace AssimpSample
         /// <param name="args">The <see cref="SharpGL.SceneGraph.OpenGLEventArgs"/> instance containing the event data.</param>
         private void openGLControl_Resized(object sender, OpenGLEventArgs args)
         {
-            m_world.Resize(args.OpenGL, (int)openGLControl.Width, (int)openGLControl.Height);
+            m_world.Resize(args.OpenGL, (int)openGLControl.ActualWidth, (int)openGLControl.ActualHeight);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

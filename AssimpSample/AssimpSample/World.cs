@@ -176,7 +176,7 @@ namespace AssimpSample
 
         #endregion Konstruktori
 
-        #region Metode
+        #region Metode: Init, Draw
 
         /// <summary>
         ///  Korisnicka inicijalizacija i podesavanje OpenGL parametara.
@@ -185,11 +185,9 @@ namespace AssimpSample
         {
             gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.Color(1f, 0f, 0f);
-            // Model sencenja na flat (konstantno)
-            //gl.ShadeModel(OpenGL.GL_FLAT);
             gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
             gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
-            gl.FrontFace(OpenGL.GL_CW);
+
             m_scene_arrow.LoadScene();
             m_scene_arrow.Initialize();
             m_scene_castle.LoadScene();
@@ -202,17 +200,26 @@ namespace AssimpSample
         public void Draw(OpenGL gl)
         {
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            ResetovanjeProjekcije(gl);
+
+            gl.PushMatrix();
+            OsnovneInteraktivneTransformacije(gl);
 
             ManipulacijaPodlogom(gl);
             ManipulacijaStrelom(gl);
             ManipulacijaDvorcem(gl);
             ManipulacijaStazom(gl);
             ManipulacijaZastitnimZidovima(gl);
-            ManipulacijaTekstom(gl);
+            gl.PopMatrix();
 
+            ManipulacijaTekstom(gl);
             // Oznaci kraj iscrtavanja
             gl.Flush();
         }
+
+        #endregion
+
+        #region Metode: Resize, Dispose
 
         /// <summary>
         /// Podesava viewport i projekciju za OpenGL kontrolu.
@@ -221,12 +228,7 @@ namespace AssimpSample
         {
             m_width = width;
             m_height = height;
-            gl.Viewport(0, 0, m_width, m_height);      // kreiranje viewport-a po celom prozoru
-            gl.MatrixMode(OpenGL.GL_PROJECTION);        // selektuj Projection Matrix
-            gl.LoadIdentity();
-            gl.Perspective(60f, (double)width / height, 1f, 20000f);
-            gl.MatrixMode(OpenGL.GL_MODELVIEW);         // prebacujemo se da transformisemo matricu nad nasim modelima
-            gl.LoadIdentity();                          // resetuj ModelView Matrix
+            ResetovanjeProjekcije(gl);
         }
 
         /// <summary>
@@ -240,7 +242,7 @@ namespace AssimpSample
             }
         }
 
-        #endregion Metode
+        #endregion
 
         #region IDisposable metode
 
@@ -255,15 +257,13 @@ namespace AssimpSample
 
         #endregion IDisposable metode
 
-
         #region Moje pomocne metode
 
         private void ManipulacijaTekstom(OpenGL gl)
         {
-            //TODO: Proveriti zasto se nista ne desava sta god da promenim za x,y, i ja sam zapravo bez ovog viewporta namestio da iscrtavam dole desno
-            // kako to da resim uz pomoc viewporta, nije mi jasno zasto ne reaguje
+
             #region Postavljanje gluOrtho2D
-            gl.Viewport(0, 0, m_width, m_height);
+            gl.Viewport(0, 0, m_width, m_height); // TODO: Uraditi preko view-porta definisanje pozicije teksta
             gl.MatrixMode(OpenGL.GL_PROJECTION);
             gl.LoadIdentity();
             gl.Ortho2D(-1.0f, 1.0f, -1.0f, 1.0f);
@@ -272,7 +272,6 @@ namespace AssimpSample
 
             #region Iscrtavanje teksta
             gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Disable(OpenGL.GL_CULL_FACE);
 
             gl.PushMatrix();
             gl.Translate(0.4f, -0.75f, 0.0f);
@@ -304,21 +303,7 @@ namespace AssimpSample
             gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Sifra zad: PF1S3.2");
             gl.PopMatrix();
 
-            gl.Enable(OpenGL.GL_CULL_FACE);
-
-
             #endregion
-
-            #region Vracanje na staru projekciju
-            // TODO: Proveriti zasto opet moram da radim ovo, zar nije bilo dovoljno popovati ?
-            gl.Viewport(0, 0, m_width, m_height);      // kreiranje viewport-a po celom prozoru
-            gl.MatrixMode(OpenGL.GL_PROJECTION);        // selektuj Projection Matrix
-            gl.LoadIdentity();
-            gl.Perspective(60f, (double)m_width / m_height, 1f, 20000f);
-            gl.MatrixMode(OpenGL.GL_MODELVIEW);         // prebacujemo se da transformisemo matricu nad nasim modelima
-            gl.LoadIdentity();                          // resetuj ModelView Matrix
-            #endregion
-
         }
 
         private void ManipulacijaZastitnimZidovima(OpenGL gl)
@@ -334,17 +319,12 @@ namespace AssimpSample
 
         private void ManipulacijaStazom(OpenGL gl)
         {
-            gl.Disable(OpenGL.GL_CULL_FACE);
-
             gl.PushMatrix();
 
-            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+            gl.Translate(0.0f,0.0f,0.1f);
 
             var visina = 50.0f;
             var sirina = 2.5f;
-
             gl.Begin(OpenGL.GL_QUADS);
             gl.Vertex(-sirina, -sirina);
             gl.Vertex(-sirina, -visina);
@@ -353,22 +333,17 @@ namespace AssimpSample
             gl.End();
 
             gl.PopMatrix();
-
-            gl.Enable(OpenGL.GL_CULL_FACE);
         }
 
         private void ManipulacijaPodlogom(OpenGL gl)
         {
-            gl.Disable(OpenGL.GL_CULL_FACE);
-
             gl.PushMatrix();
-            gl.Translate(0.0f, 0.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
 
             var koeficijentVelicinePodloge = 5;
             var baznaKordinata = 10.0f;
             gl.Color(0.72f, 1.0f, 0.8f);        // rgb(186,255,205) - ali Color metoda ocekuje vrednosti od 0-1 pa sam skalirao na taj opseg
+
+            gl.FrontFace(OpenGL.GL_CCW);
             gl.Begin(OpenGL.GL_QUADS);
             gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
             gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
@@ -377,15 +352,11 @@ namespace AssimpSample
             gl.End();
 
             gl.PopMatrix();
-            gl.Enable(OpenGL.GL_CULL_FACE);
         }
 
         private void ManipulacijaDvorcem(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Translate(0.0f, 0.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
             gl.Scale(2f, 2f, 2f);
             m_scene_castle.Draw();
             gl.PopMatrix();
@@ -394,12 +365,30 @@ namespace AssimpSample
         private void ManipulacijaStrelom(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Translate(10.0f, 10.0f, -m_sceneDistance);
-            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
-            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
             gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
             m_scene_arrow.Draw();
             gl.PopMatrix();
+        }
+
+        /// <summary>
+        /// Interaktivne transformacije u smislu da primenom w,a,s,d kao i +,- kontrola mozemo interagovati s nasom scenom
+        /// </summary>
+        /// <param name="gl"></param>
+        private void OsnovneInteraktivneTransformacije(OpenGL gl)
+        {
+            gl.Translate(0.0f, 1.0f, -m_sceneDistance);
+            gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
+            gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
+        }
+
+        private void ResetovanjeProjekcije(OpenGL gl)
+        {
+            gl.Viewport(0, 0, m_width, m_height); // kreiranje viewport-a po celom prozoru
+            gl.MatrixMode(OpenGL.GL_PROJECTION); // selektuj Projection Matrix
+            gl.LoadIdentity();
+            gl.Perspective(60f, (double)m_width / m_height, 1f, 20000f);
+            gl.MatrixMode(OpenGL.GL_MODELVIEW); // prebacujemo se da transformisemo matricu nad nasim modelima
+            gl.LoadIdentity(); // resetuj ModelView Matrix
         }
 
         #endregion
