@@ -60,7 +60,7 @@ namespace AssimpSample
         /// <summary>
         ///	 Udaljenost scene od kamere.
         /// </summary>
-        private float m_sceneDistance = 100.0f;
+        private float m_sceneDistance = 7000.0f;
 
         /// <summary>
         ///	 Sirina OpenGL kontrole u pikselima.
@@ -204,6 +204,9 @@ namespace AssimpSample
 
             gl.PushMatrix();
             OsnovneInteraktivneTransformacije(gl);
+            SkaliranjeCitaveScene(gl);
+
+            
 
             ManipulacijaPodlogom(gl);
             ManipulacijaStrelom(gl);
@@ -215,6 +218,12 @@ namespace AssimpSample
             ManipulacijaTekstom(gl);
             // Oznaci kraj iscrtavanja
             gl.Flush();
+        }
+
+        private void SkaliranjeCitaveScene(OpenGL gl)
+        {
+            var koeficijentSkaliranja = 60.0f;
+            gl.Scale(koeficijentSkaliranja, koeficijentSkaliranja, koeficijentSkaliranja);
         }
 
         #endregion
@@ -300,7 +309,7 @@ namespace AssimpSample
             gl.PushMatrix();
             gl.Translate(0.4f, -0.95f, 0.0f);
             gl.Scale(0.05f, 0.05f, 0.05f);
-            gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Sifra zad: PF1S3.2");
+            gl.DrawText3D("Verdana", 14f, 1f, 0.6f, "Sifra zad: 3.2");
             gl.PopMatrix();
 
             #endregion

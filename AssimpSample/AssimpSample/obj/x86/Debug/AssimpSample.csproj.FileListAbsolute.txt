@@ -22,3 +22,27 @@ C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj
 C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.exe
 C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.pdb
 C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csprojAssemblyReference.cache
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpLib\Assimp32.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpLib\Assimp64.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpLib\AssimpNet.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\3D Models\Touareg\Touareg.3DS
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpSample.exe.config
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpSample.exe
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpSample.pdb
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\AssimpNet.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\SharpGL.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\SharpGL.SceneGraph.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\bin\Debug\SharpGL.WPF.dll
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csprojAssemblyReference.cache
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\MainWindow.baml
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\MainWindow.g.cs
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\App.g.cs
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample_Content.g.cs
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample_MarkupCompile.cache
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.g.resources
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.Properties.Resources.resources
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csproj.GenerateResource.cache
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csproj.CoreCompileInputs.cache
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csproj.CopyComplete
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.exe
+C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.pdb
