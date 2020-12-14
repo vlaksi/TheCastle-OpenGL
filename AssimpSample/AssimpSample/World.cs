@@ -206,8 +206,6 @@ namespace AssimpSample
             OsnovneInteraktivneTransformacije(gl);
             SkaliranjeCitaveScene(gl);
 
-            
-
             ManipulacijaPodlogom(gl);
             ManipulacijaStrelom(gl);
             ManipulacijaDvorcem(gl);
