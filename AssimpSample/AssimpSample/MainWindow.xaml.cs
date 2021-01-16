@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using AssimpSample.Services;
 using SharpGL.SceneGraph;
 using SharpGL;
 using Microsoft.Win32;
@@ -31,6 +32,8 @@ namespace AssimpSample
         /// </summary>
         World m_world = null;
 
+        private readonly CoordinateValidator _coordinateValidator;
+
         #endregion Atributi
 
         #region Konstruktori
@@ -40,10 +43,13 @@ namespace AssimpSample
             // Inicijalizacija komponenti
             InitializeComponent();
 
+
+
             // Kreiranje OpenGL sveta
             try
             {
                 m_world = new World(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "3D Models"), "Arrow.dae", (int)openGLControl.Width, (int)openGLControl.Height, openGLControl.OpenGL);
+                _coordinateValidator = new CoordinateValidator();
                 //m_world = new World(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "3D Models\\Arrow"), "Arrow.dae", (int)openGLControl.Width, (int)openGLControl.Height, openGLControl.OpenGL);
             }
             catch (Exception e)
@@ -51,6 +57,11 @@ namespace AssimpSample
                 MessageBox.Show("Neuspesno kreirana instanca OpenGL sveta. Poruka greške: " + e.Message, "Poruka", MessageBoxButton.OK);
                 this.Close();
             }
+        }
+
+        public CoordinateValidator CoordinateValidator
+        {
+            get { return _coordinateValidator; }
         }
 
         #endregion Konstruktori
@@ -85,67 +96,31 @@ namespace AssimpSample
             m_world.Resize(args.OpenGL, (int)openGLControl.ActualWidth, (int)openGLControl.ActualHeight);
         }
 
-        private bool DozvoljenoRotiranjeKaDole()
-        {
-            // 80 zato sto sam to primetio debagovanjem, nisam siguran da li je ovo najpametniji nacin, def treba proveriti
-            // TODO: Proveriti jel okej ovako
-            if (m_world.RotationX >= -80) 
-                return true;
-            else
-                return false;
-        }
-
-        private bool DozvoljenoRotiranjeKaGore()
-        {
-            // 80 zato sto sam to primetio debagovanjem, nisam siguran da li je ovo najpametniji nacin, def treba proveriti
-            // TODO: Proveriti jel okej ovako
-            if (m_world.RotationX <= 80)
-                return true;
-            else
-                return false;
-        }
-
-        private bool DozvoljenoRotiranjeKaLevo()
-        {
-            if (m_world.RotationY >= -80)
-                return true;
-            else
-                return false;
-        }
-
-        private bool DozvoljenoRotiranjeKaDesno()
-        {
-            if (m_world.RotationY <= 80)
-                return true;
-            else
-                return false;
-        }
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
                 case Key.F4: this.Close(); break;
                 case Key.I:
-                    if (DozvoljenoRotiranjeKaDole())
+                    if (CoordinateValidator.ValidDownRotate(m_world.RotationX))
                         m_world.RotationX -= 5.0f;
                     else
                         m_world.RotationX -= -5.0f;
                     break;
                 case Key.K:
-                    if(DozvoljenoRotiranjeKaGore())
+                    if(CoordinateValidator.ValidUpRotate(m_world.RotationX))
                         m_world.RotationX += 5.0f;
                     else
                         m_world.RotationX += -5.0f;
                     break;
                 case Key.J:
-                    if (DozvoljenoRotiranjeKaLevo())
+                    if (CoordinateValidator.ValidLeftRotate(m_world.RotationY))
                         m_world.RotationY -= 5.0f;
                     else
                         m_world.RotationY += 5.0f;
                     break;
                 case Key.L:
-                    if (DozvoljenoRotiranjeKaDesno())
+                    if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
                         m_world.RotationY += 5.0f;
                     else
                         m_world.RotationY -= 5.0f;

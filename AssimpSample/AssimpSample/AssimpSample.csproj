@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AssimpScene.cs" />
+    <Compile Include="Services\CoordinateValidator.cs" />
     <Compile Include="Services\WallFactory.cs" />
     <Compile Include="World.cs" />
     <Page Include="MainWindow.xaml">
