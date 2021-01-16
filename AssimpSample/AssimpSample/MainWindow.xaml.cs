@@ -85,20 +85,76 @@ namespace AssimpSample
             m_world.Resize(args.OpenGL, (int)openGLControl.ActualWidth, (int)openGLControl.ActualHeight);
         }
 
+        private bool DozvoljenoRotiranjeKaDole()
+        {
+            // 80 zato sto sam to primetio debagovanjem, nisam siguran da li je ovo najpametniji nacin, def treba proveriti
+            // TODO: Proveriti jel okej ovako
+            if (m_world.RotationX >= -80) 
+                return true;
+            else
+                return false;
+        }
+
+        private bool DozvoljenoRotiranjeKaGore()
+        {
+            // 80 zato sto sam to primetio debagovanjem, nisam siguran da li je ovo najpametniji nacin, def treba proveriti
+            // TODO: Proveriti jel okej ovako
+            if (m_world.RotationX <= 80)
+                return true;
+            else
+                return false;
+        }
+
+        private bool DozvoljenoRotiranjeKaLevo()
+        {
+            if (m_world.RotationY >= -80)
+                return true;
+            else
+                return false;
+        }
+
+        private bool DozvoljenoRotiranjeKaDesno()
+        {
+            if (m_world.RotationY <= 80)
+                return true;
+            else
+                return false;
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
-                case Key.F10: this.Close(); break;
-                case Key.W: m_world.RotationX -= 5.0f; break;
-                case Key.S: m_world.RotationX += 5.0f; break;
-                case Key.A: m_world.RotationY -= 5.0f; break;
-                case Key.D: m_world.RotationY += 5.0f; break;
+                case Key.F4: this.Close(); break;
+                case Key.I:
+                    if (DozvoljenoRotiranjeKaDole())
+                        m_world.RotationX -= 5.0f;
+                    else
+                        m_world.RotationX -= -5.0f;
+                    break;
+                case Key.K:
+                    if(DozvoljenoRotiranjeKaGore())
+                        m_world.RotationX += 5.0f;
+                    else
+                        m_world.RotationX += -5.0f;
+                    break;
+                case Key.J:
+                    if (DozvoljenoRotiranjeKaLevo())
+                        m_world.RotationY -= 5.0f;
+                    else
+                        m_world.RotationY += 5.0f;
+                    break;
+                case Key.L:
+                    if (DozvoljenoRotiranjeKaDesno())
+                        m_world.RotationY += 5.0f;
+                    else
+                        m_world.RotationY -= 5.0f;
+                    break;
                 case Key.Add: m_world.SceneDistance -= 700.0f; break;
                 case Key.Subtract: m_world.SceneDistance += 700.0f; break;
                 case Key.F2:
                     OpenFileDialog opfModel = new OpenFileDialog();
-                    bool result = (bool) opfModel.ShowDialog();
+                    bool result = (bool)opfModel.ShowDialog();
                     if (result)
                     {
 
@@ -111,7 +167,7 @@ namespace AssimpSample
                         }
                         catch (Exception exp)
                         {
-                            MessageBox.Show("Neuspesno kreirana instanca OpenGL sveta:\n" + exp.Message, "GRESKA", MessageBoxButton.OK );
+                            MessageBox.Show("Neuspesno kreirana instanca OpenGL sveta:\n" + exp.Message, "GRESKA", MessageBoxButton.OK);
                         }
                     }
                     break;
