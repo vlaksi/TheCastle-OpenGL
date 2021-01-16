@@ -15,6 +15,7 @@ using SharpGL.SceneGraph.Quadrics;
 using SharpGL.SceneGraph.Core;
 using SharpGL;
 using AssimpSample.Services;
+using SharpGL.SceneGraph.Cameras;
 
 namespace AssimpSample
 {
@@ -26,6 +27,18 @@ namespace AssimpSample
     public class World : IDisposable
     {
         #region Atributi
+
+        // Atributi koji uticu na ponasanje FPS kamere
+        private LookAtCamera lookAtCam;
+        private float walkSpeed = 0.1f;
+        float mouseSpeed = 0.005f;
+        double horizontalAngle = 0f;
+        double verticalAngle = 0.0f;
+
+        //Pomocni vektori preko kojih definisemo lookAt funkciju
+        private Vertex direction;
+        private Vertex right;
+        private Vertex up;
 
         /// <summary>
         ///	 Ugao rotacije Meseca
@@ -188,6 +201,8 @@ namespace AssimpSample
             gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
             gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
 
+            PodesavanjeInicijalnihParametaraKamere(gl);
+
             m_scene_arrow.LoadScene();
             m_scene_arrow.Initialize();
             m_scene_castle.LoadScene();
@@ -200,11 +215,16 @@ namespace AssimpSample
         public void Draw(OpenGL gl)
         {
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+
             ResetovanjeProjekcije(gl);
 
             gl.PushMatrix();
             OsnovneInteraktivneTransformacije(gl);
             SkaliranjeCitaveScene(gl);
+
+            //Unosi transformacije u ModelView matricu koristeći svoje trenutno podešene parametre
+            // TODO: Skontati zasto mi ne radi ovo s kamerom ?
+            //lookAtCam.Project(gl);
 
             ManipulacijaPodlogom(gl);
             ManipulacijaStrelom(gl);
@@ -265,6 +285,33 @@ namespace AssimpSample
         #endregion IDisposable metode
 
         #region Moje pomocne metode
+
+        /// <summary>
+        ///  Azurira poziciju kamere preko tipki tastature
+        /// </summary>
+        public void UpdateCameraPosition(int deltaX, int deltaY, int deltaZ)
+        {
+            Vertex deltaForward = direction * deltaZ;
+            Vertex deltaStrafe = right * deltaX;
+            Vertex deltaUp = up * deltaY;
+            Vertex delta = deltaForward + deltaStrafe + deltaUp;
+            lookAtCam.Position += (delta * walkSpeed);
+            lookAtCam.Target = lookAtCam.Position + direction;
+            lookAtCam.UpVector = up;
+        }
+
+        private void PodesavanjeInicijalnihParametaraKamere(OpenGL gl)
+        {
+            lookAtCam = new LookAtCamera();
+            lookAtCam.Position = new Vertex(0f, 0f, 0f);    // eyex, eyey, eyez – tačka posmatranja,
+            lookAtCam.Target = new Vertex(0f, 0f, -10f);    // centerx, centery, centerz – vektor koji opisuje tačku u koju kamera gleda, 
+            lookAtCam.UpVector = new Vertex(0f, 1f, 0f);    // upx, upy, upz – vektor koji određuje pravac i smer na gore (upward vector).
+
+            right = new Vertex(1f, 0f, 0f);
+            direction = new Vertex(0f, 0f, -1f);
+            lookAtCam.Target = lookAtCam.Position + direction;
+            lookAtCam.Project(gl);
+        }
 
         private void ManipulacijaTekstom(OpenGL gl)
         {
