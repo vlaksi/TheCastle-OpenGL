@@ -9,6 +9,7 @@ using System;
 using Assimp;
 using System.IO;
 using System.Reflection;
+using System.Windows.Threading;
 using SharpGL.SceneGraph;
 using SharpGL.SceneGraph.Primitives;
 using SharpGL.SceneGraph.Quadrics;
@@ -40,15 +41,12 @@ namespace AssimpSample
         private Vertex right;
         private Vertex up;
 
-        /// <summary>
-        ///	 Ugao rotacije Meseca
-        /// </summary>
-        private float m_moonRotation = 0.0f;
+        // Parametri za animaciju
+        private float cubeHeight;
+        private bool cubesGoingUp;
+        private DispatcherTimer timer1;
+        private DispatcherTimer timer2;
 
-        /// <summary>
-        ///	 Ugao rotacije Zemlje
-        /// </summary>
-        private float m_earthRotation = 0.0f;
 
         /// <summary>
         ///	 Scena koja se prikazuje.
@@ -202,12 +200,15 @@ namespace AssimpSample
             gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
 
             PodesavanjeInicijalnihParametaraKamere(gl);
+            DefinisanjeTajmeraZaAnimaciju();
 
             m_scene_arrow.LoadScene();
             m_scene_arrow.Initialize();
             m_scene_castle.LoadScene();
             m_scene_castle.Initialize();
         }
+
+       
 
         /// <summary>
         ///  Iscrtavanje OpenGL kontrole.
@@ -267,6 +268,66 @@ namespace AssimpSample
             {
                 m_scene_arrow.Dispose();
             }
+        }
+
+        #endregion
+
+        #region Metode animacije
+
+        public void AktivacijaAnimacije()
+        {
+            timer1.Start();
+            timer2.Start();
+        }
+
+        public void DeaktivacijaAnimacije()
+        {
+            timer1.Stop();
+            timer2.Stop();
+        }
+
+        private void DefinisanjeTajmeraZaAnimaciju()
+        {
+            timer1 = new DispatcherTimer();
+            timer1.Interval = TimeSpan.FromMilliseconds(20);
+            timer1.Tick += new EventHandler(UpdateAnimation1);
+            //timer1.Start();
+
+            timer2 = new DispatcherTimer();
+            timer2.Interval = TimeSpan.FromSeconds(3f);
+            timer2.Tick += new EventHandler(UpdateAnimation2);
+            //timer2.Start();
+        }
+
+        /// <summary>
+        /// Definiše offset kocki
+        /// </summary>
+        private void UpdateAnimation1(object sender, EventArgs e)
+        {
+            if (cubesGoingUp)
+                cubeHeight += 0.1f;
+            else
+                cubeHeight -= 0.2f;
+        }
+
+        /// <summary>
+        /// Obrće smer pomeranja kocki
+        /// </summary>
+        private void UpdateAnimation2(object sender, EventArgs e)
+        {
+            if (!cubesGoingUp)
+            {
+                cubeHeight = 0f;
+            }
+            cubesGoingUp = !cubesGoingUp;
+        }
+
+        /// <summary>
+        ///  Funkcija ograničava vrednost na opseg min - max
+        /// </summary>
+        public static float Clamp(float value, float min, float max)
+        {
+            return (value < min) ? min : (value > max) ? max : value;
         }
 
         #endregion
@@ -418,10 +479,25 @@ namespace AssimpSample
 
         private void ManipulacijaStrelom(OpenGL gl)
         {
-            gl.PushMatrix();
-            gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
-            m_scene_arrow.Draw();
-            gl.PopMatrix();
+            for (int i = 1; i < 11; i++)
+            {
+                gl.PushMatrix();
+                float specificCubeHeight;
+
+
+                gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
+
+                specificCubeHeight = i * cubeHeight;
+                specificCubeHeight = Clamp(specificCubeHeight, 0f, 3000f);
+
+                gl.Translate(0.0f, -specificCubeHeight, i/2);
+                gl.Rotate(90.0f, 1.0f, 0.0f, 0.0f);
+
+                m_scene_arrow.Draw();
+
+
+                gl.PopMatrix();
+            }
         }
 
         /// <summary>

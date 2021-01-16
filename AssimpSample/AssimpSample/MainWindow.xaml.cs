@@ -100,6 +100,8 @@ namespace AssimpSample
         {
             switch (e.Key)
             {
+                case Key.V: m_world.AktivacijaAnimacije(); break;
+                case Key.P: m_world.DeaktivacijaAnimacije(); break;
                 case Key.F4: this.Close(); break;
                 case Key.I:
                     if (CoordinateValidator.ValidDownRotate(m_world.RotationX))
@@ -108,7 +110,7 @@ namespace AssimpSample
                         m_world.RotationX -= -5.0f;
                     break;
                 case Key.K:
-                    if(CoordinateValidator.ValidUpRotate(m_world.RotationX))
+                    if (CoordinateValidator.ValidUpRotate(m_world.RotationX))
                         m_world.RotationX += 5.0f;
                     else
                         m_world.RotationX += -5.0f;
