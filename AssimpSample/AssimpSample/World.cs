@@ -42,8 +42,8 @@ namespace AssimpSample
         private Vertex up;
 
         // Parametri za animaciju
-        private float cubeHeight;
-        private bool cubesGoingUp;
+        private float pomerajStrele;
+        private bool strelaIzlaziVanZamka;
         private DispatcherTimer timer1;
         private DispatcherTimer timer2;
 
@@ -291,12 +291,10 @@ namespace AssimpSample
             timer1 = new DispatcherTimer();
             timer1.Interval = TimeSpan.FromMilliseconds(20);
             timer1.Tick += new EventHandler(UpdateAnimation1);
-            //timer1.Start();
 
             timer2 = new DispatcherTimer();
             timer2.Interval = TimeSpan.FromSeconds(3f);
             timer2.Tick += new EventHandler(UpdateAnimation2);
-            //timer2.Start();
         }
 
         /// <summary>
@@ -304,10 +302,10 @@ namespace AssimpSample
         /// </summary>
         private void UpdateAnimation1(object sender, EventArgs e)
         {
-            if (cubesGoingUp)
-                cubeHeight += 0.1f;
+            if (strelaIzlaziVanZamka)
+                pomerajStrele += 0.1f;
             else
-                cubeHeight -= 0.2f;
+                pomerajStrele -= 0.2f;
         }
 
         /// <summary>
@@ -315,11 +313,11 @@ namespace AssimpSample
         /// </summary>
         private void UpdateAnimation2(object sender, EventArgs e)
         {
-            if (!cubesGoingUp)
+            if (!strelaIzlaziVanZamka)
             {
-                cubeHeight = 0f;
+                pomerajStrele = 0f;
             }
-            cubesGoingUp = !cubesGoingUp;
+            strelaIzlaziVanZamka = !strelaIzlaziVanZamka;
         }
 
         /// <summary>
@@ -487,7 +485,7 @@ namespace AssimpSample
 
                 gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
 
-                specificCubeHeight = i * cubeHeight;
+                specificCubeHeight = i * pomerajStrele;
                 specificCubeHeight = Clamp(specificCubeHeight, 0f, 3000f);
 
                 gl.Translate(0.0f, -specificCubeHeight, i/2);
