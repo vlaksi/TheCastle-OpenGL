@@ -1,5 +1,9 @@
-﻿using SharpGL;
+﻿using System.Drawing;
+using SharpGL;
 using SharpGL.SceneGraph.Primitives;
+using SharpGL.Enumerations;
+using SharpGL.SceneGraph.Quadrics;
+using SharpGL.SceneGraph.Assets;
 
 namespace AssimpSample.Services
 {
@@ -41,6 +45,12 @@ namespace AssimpSample.Services
             gl.Translate(0.0f, 25.0f, 1.0f);
 
             Cube zidIzaDvorca = new Cube();
+            zidIzaDvorca.Material = new Material();
+            zidIzaDvorca.Material.Diffuse = Color.Red;
+            zidIzaDvorca.Material.Ambient = Color.Blue;
+            zidIzaDvorca.Material.Specular = Color.Green;
+            zidIzaDvorca.Material.Shininess = 100f;
+
             zidIzaDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
             gl.PopMatrix();
         }

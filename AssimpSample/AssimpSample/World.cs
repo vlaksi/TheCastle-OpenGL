@@ -16,6 +16,7 @@ using SharpGL.SceneGraph.Quadrics;
 using SharpGL.SceneGraph.Core;
 using SharpGL;
 using AssimpSample.Services;
+using SharpGL.Enumerations;
 using SharpGL.SceneGraph.Cameras;
 
 namespace AssimpSample
@@ -196,11 +197,17 @@ namespace AssimpSample
         {
             gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.Color(1f, 0f, 0f);
-            gl.Enable(OpenGL.GL_DEPTH_TEST);    // ukljucujemo testiranje dubine
-            gl.Enable(OpenGL.GL_CULL_FACE);     // ukljucujem sakrivanje nevidljivih povrsina (BFC - Back face culling)
+            UkljuciTestiranjeDubine(gl);
+            UkljuciSakrivanjeNevidljivihPovrsina(gl);
 
-            PodesavanjeInicijalnihParametaraKamere(gl);
-            DefinisanjeTajmeraZaAnimaciju();
+            SetupLighting(gl);
+
+            UkljuciColorTrackingMehanizam(gl);
+            DefinisiKomponenteMaterijala(gl);
+
+
+            PodesiInicijalneParametreKamere(gl);
+            DefinisiTajmereAnimacija();
 
             m_scene_arrow.LoadScene();
             m_scene_arrow.Initialize();
@@ -208,7 +215,6 @@ namespace AssimpSample
             m_scene_castle.Initialize();
         }
 
-       
 
         /// <summary>
         ///  Iscrtavanje OpenGL kontrole.
@@ -243,6 +249,31 @@ namespace AssimpSample
         {
             var koeficijentSkaliranja = 60.0f;
             gl.Scale(koeficijentSkaliranja, koeficijentSkaliranja, koeficijentSkaliranja);
+        }
+
+        #endregion
+
+        #region Config metode
+
+        private void DefinisiKomponenteMaterijala(OpenGL gl)
+        {
+            gl.ColorMaterial(OpenGL.GL_FRONT,
+                OpenGL.GL_AMBIENT_AND_DIFFUSE); // pozivom metode glColor se definiše ambijentalna i difuzna komponenta materijala.
+        }
+
+        private void UkljuciColorTrackingMehanizam(OpenGL gl)
+        {
+            gl.Enable(OpenGL.GL_COLOR_MATERIAL);
+        }
+
+        private void UkljuciSakrivanjeNevidljivihPovrsina(OpenGL gl)
+        {
+            gl.Enable(OpenGL.GL_CULL_FACE); // (BFC - Back face culling)
+        }
+
+        private void UkljuciTestiranjeDubine(OpenGL gl)
+        {
+            gl.Enable(OpenGL.GL_DEPTH_TEST);
         }
 
         #endregion
@@ -286,7 +317,7 @@ namespace AssimpSample
             timer2.Stop();
         }
 
-        private void DefinisanjeTajmeraZaAnimaciju()
+        private void DefinisiTajmereAnimacija()
         {
             timer1 = new DispatcherTimer();
             timer1.Interval = TimeSpan.FromMilliseconds(20);
@@ -346,7 +377,7 @@ namespace AssimpSample
             lookAtCam.UpVector = up;
         }
 
-        private void PodesavanjeInicijalnihParametaraKamere(OpenGL gl)
+        private void PodesiInicijalneParametreKamere(OpenGL gl)
         {
             lookAtCam = new LookAtCamera();
             lookAtCam.Position = new Vertex(0f, 0f, 0f);    // eyex, eyey, eyez – tačka posmatranja,
@@ -357,6 +388,31 @@ namespace AssimpSample
             direction = new Vertex(0f, 0f, -1f);
             lookAtCam.Target = lookAtCam.Position + direction;
             lookAtCam.Project(gl);
+        }
+
+        #endregion
+
+        #region Metode osvetljenja
+
+        /// <summary>
+        /// Podesavanje osvetljenja
+        /// </summary>
+        private void SetupLighting(OpenGL gl)
+        {
+            float[] global_ambient = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
+            gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, global_ambient);
+
+            float[] light0pos = new float[] { 0.0f, 0.0f, -4.0f, 1.0f };
+            float[] light0ambient = new float[] { 0.4f, 0.4f, 0.4f, 1.0f };
+            float[] light0diffuse = new float[] { 0.3f, 0.3f, 0.3f, 1.0f };
+            float[] light0specular = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
+
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light0pos);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, light0ambient);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, light0diffuse);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
+            gl.Enable(OpenGL.GL_LIGHTING);
+            gl.Enable(OpenGL.GL_LIGHT0);
         }
 
         #endregion
