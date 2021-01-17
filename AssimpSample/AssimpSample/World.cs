@@ -298,7 +298,7 @@ namespace AssimpSample
         }
 
         /// <summary>
-        /// Definiše offset kocki
+        /// Definiše pomeraj strele
         /// </summary>
         private void UpdateAnimation1(object sender, EventArgs e)
         {
@@ -309,7 +309,7 @@ namespace AssimpSample
         }
 
         /// <summary>
-        /// Obrće smer pomeranja kocki
+        /// Obrće smer pomeranja strele
         /// </summary>
         private void UpdateAnimation2(object sender, EventArgs e)
         {
@@ -330,20 +330,7 @@ namespace AssimpSample
 
         #endregion
 
-        #region IDisposable metode
-
-        /// <summary>
-        ///  Dispose metoda.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion IDisposable metode
-
-        #region Moje pomocne metode
+        #region Metode kamere
 
         /// <summary>
         ///  Azurira poziciju kamere preko tipki tastature
@@ -371,6 +358,23 @@ namespace AssimpSample
             lookAtCam.Target = lookAtCam.Position + direction;
             lookAtCam.Project(gl);
         }
+
+        #endregion
+
+        #region IDisposable metode
+
+        /// <summary>
+        ///  Dispose metoda.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable metode
+
+        #region Moje pomocne metode
 
         private void ManipulacijaTekstom(OpenGL gl)
         {
@@ -477,22 +481,21 @@ namespace AssimpSample
 
         private void ManipulacijaStrelom(OpenGL gl)
         {
-            for (int i = 1; i < 11; i++)
+            int brojStrela = 10;
+            for (float idxStrele = 1; idxStrele <= brojStrela; idxStrele++) // float kako ne bih gubio decimale pri deljenju
             {
                 gl.PushMatrix();
-                float specificCubeHeight;
-
+                float jedinstveniPomerajStrele;
 
                 gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
 
-                specificCubeHeight = i * pomerajStrele;
-                specificCubeHeight = Clamp(specificCubeHeight, 0f, 3000f);
+                jedinstveniPomerajStrele = pomerajStrele;
+                jedinstveniPomerajStrele = Clamp(jedinstveniPomerajStrele, 0f, 3000f);
 
-                gl.Translate(0.0f, -specificCubeHeight, i/2);
+                gl.Translate(0.0f, -jedinstveniPomerajStrele, idxStrele/3);
                 gl.Rotate(90.0f, 1.0f, 0.0f, 0.0f);
 
                 m_scene_arrow.Draw();
-
 
                 gl.PopMatrix();
             }
