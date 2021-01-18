@@ -41,11 +41,12 @@ namespace AssimpSample
         private DispatcherTimer timer2;
         private DispatcherTimer timer3;
         private DispatcherTimer timer4;
-        
+
 
         // parametri za interakciju preko wpf kontrola
         public int TranslacijaDesnogZida { get; set; }
         public int RotacijaLevogZida { get; set; }
+        public int FaktorSkaliranjaStrele { get; set; }
 
 
         /// <summary>
@@ -175,6 +176,8 @@ namespace AssimpSample
             this.m_width = width;
             this.m_height = height;
             _wallFactory = new WallFactory(this);
+
+            FaktorSkaliranjaStrele = 1;
         }
 
         /// <summary>
@@ -231,7 +234,7 @@ namespace AssimpSample
             DefinisiKameru(gl);
 
             IscrtajPodlogu(gl);
-            IscrtajStrele(gl);
+            IscrtajStrele(gl,FaktorSkaliranjaStrele);
             IscrtajDvorac(gl);
             IscrtajStazu(gl);
             IscrtajZidove(gl);
@@ -349,7 +352,7 @@ namespace AssimpSample
             RotationX = 30.0f;
             RotationY = -180.0f;
 
-            
+
             timer1.Stop();
             timer3.Stop();
             timer4.Stop();
@@ -516,7 +519,7 @@ namespace AssimpSample
 
             _wallFactory.RenderovanjeZidaIzaDvorca(gl);
             _wallFactory.RenderovanjeZidaLevoOdDvorca(gl, RotacijaLevogZida);
-            _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl,TranslacijaDesnogZida);
+            _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl, TranslacijaDesnogZida);
 
             gl.Enable(OpenGL.GL_CULL_FACE);
         }
@@ -525,7 +528,7 @@ namespace AssimpSample
         {
             gl.PushMatrix();
 
-            gl.Translate(0.0f,0.0f,0.1f);
+            gl.Translate(0.0f, 0.0f, 0.1f);
 
             var visina = 50.0f;
             var sirina = 2.5f;
@@ -566,7 +569,7 @@ namespace AssimpSample
             gl.PopMatrix();
         }
 
-        private void IscrtajStrele(OpenGL gl)
+        private void IscrtajStrele(OpenGL gl, int faktorSkaliranjaStrele = 1)
         {
             int brojStrela = 10;
             for (float idxStrele = 1; idxStrele <= brojStrela; idxStrele++) // float kako ne bih gubio decimale pri deljenju
@@ -574,12 +577,12 @@ namespace AssimpSample
                 gl.PushMatrix();
                 float jedinstveniPomerajStrele;
 
-                gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
+                gl.Scale(faktorSkaliranjaStrele * 5f, faktorSkaliranjaStrele * 5.0f, faktorSkaliranjaStrele * 5f); // povecavam malo strelu, jer je dosta mala
 
                 jedinstveniPomerajStrele = PomerajStrele;
                 jedinstveniPomerajStrele = Clamp(jedinstveniPomerajStrele, 0f, 3000f);
 
-                gl.Translate(0.0f, -jedinstveniPomerajStrele, idxStrele/3);
+                gl.Translate(0.0f, -jedinstveniPomerajStrele, idxStrele / 3);
                 gl.Rotate(90.0f, 1.0f, 0.0f, 0.0f);
 
                 m_scene_arrow.Draw();

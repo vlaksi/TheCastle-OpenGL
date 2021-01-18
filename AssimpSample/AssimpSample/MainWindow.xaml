@@ -24,6 +24,14 @@
                              VerticalAlignment="Center" 
                              TextChanged="RotacijaLevogZidaTextBox_OnTextChanged"/>
 
+                    <Label x:Name="faktorSkaliranjaStreleLabel"
+                           Content="Faktor skaliranja strele"
+                           Height="26" VerticalAlignment="Top"/>
+                    <TextBox Name="faktorSkaliranjaStreleTextBox" Width="30" Text="001"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             TextChanged="FaktorSkaliranjaStreleTextBox_OnTextChanged"/>
+
                 </ToolBar>
             </ToolBarTray>
 

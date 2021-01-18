@@ -273,5 +273,38 @@ namespace AssimpSample
         #endregion
 
 
+        #region Faktor skaliranja strele
+
+        private void FaktorSkaliranjaStreleTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool negativanBroj = false;
+            string ucitaniTekst = faktorSkaliranjaStreleTextBox.Text;
+
+            if (ucitaniTekst.Length <= 0) return;
+
+            if (ucitaniTekst[0] == '-')
+            {
+                negativanBroj = true;
+                ucitaniTekst = ucitaniTekst.Substring(1, ucitaniTekst.Length - 1);
+            }
+
+
+            if (ucitaniTekst.Length >= 1 & ucitaniTekst.Length <= 3)
+            {
+                if (!IsInputNumber(ucitaniTekst)) return;
+                var faktorSkaliranja = ParsirajInput(ucitaniTekst, negativanBroj);
+                PostaviVrednostSkaliranja(faktorSkaliranja);
+            }
+        }
+
+        private void PostaviVrednostSkaliranja(int vrednostFaktoraSKaliranja)
+        {
+            if (m_world != null)
+                m_world.FaktorSkaliranjaStrele += vrednostFaktoraSKaliranja;
+        }
+
+        #endregion
+
+
     }
 }
