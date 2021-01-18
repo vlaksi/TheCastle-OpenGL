@@ -100,35 +100,70 @@ namespace AssimpSample
         {
             switch (e.Key)
             {
-                case Key.V: m_world.AktivacijaAnimacije(); break;
-                case Key.P: m_world.DeaktivacijaAnimacije(); break;
+                case Key.V:
+                    m_world.AktivacijaAnimacije();
+                    ZabranaInterakcije = true;
+                    break;
+                case Key.P:
+                    m_world.DeaktivacijaAnimacije();
+                    ZabranaInterakcije = false;
+                    break;
                 case Key.F4: this.Close(); break;
                 case Key.I:
-                    if (CoordinateValidator.ValidDownRotate(m_world.RotationX))
+                    //if (CoordinateValidator.ValidDownRotate(m_world.RotationX))
+                    //    m_world.RotationX -= 5.0f;
+                    //else
+                    //    m_world.RotationX -= -5.0f;
+                    if (!ZabranaInterakcije)
+                    {
                         m_world.RotationX -= 5.0f;
-                    else
-                        m_world.RotationX -= -5.0f;
+                    }
                     break;
                 case Key.K:
-                    if (CoordinateValidator.ValidUpRotate(m_world.RotationX))
+                    //if (CoordinateValidator.ValidUpRotate(m_world.RotationX))
+                    //    m_world.RotationX += 5.0f;
+                    //else
+                    //    m_world.RotationX += -5.0f;
+                    if (!ZabranaInterakcije)
+                    {
                         m_world.RotationX += 5.0f;
-                    else
-                        m_world.RotationX += -5.0f;
+                    }
                     break;
                 case Key.J:
-                    if (CoordinateValidator.ValidLeftRotate(m_world.RotationY))
+                    //if (CoordinateValidator.ValidLeftRotate(m_world.RotationY))
+                    //    m_world.RotationY -= 5.0f;
+                    //else
+                    //    m_world.RotationY += 5.0f;
+
+                    if (!ZabranaInterakcije)
+                    {
                         m_world.RotationY -= 5.0f;
-                    else
-                        m_world.RotationY += 5.0f;
+                    }
                     break;
                 case Key.L:
-                    if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
+                    //if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
+                    //    m_world.RotationY += 5.0f;
+                    //else
+                    //    m_world.RotationY -= 5.0f;
+                    if (!ZabranaInterakcije)
+                    {
                         m_world.RotationY += 5.0f;
-                    else
-                        m_world.RotationY -= 5.0f;
+
+                    }
                     break;
-                case Key.Add: m_world.SceneDistance -= 700.0f; break;
-                case Key.Subtract: m_world.SceneDistance += 700.0f; break;
+                case Key.Add:
+                    if (!ZabranaInterakcije)
+                    {
+                        m_world.SceneDistance -= 700.0f;
+                    }
+                    break;
+                case Key.Subtract:
+                    if (!ZabranaInterakcije)
+                    {
+                        m_world.SceneDistance += 700.0f;
+                    }
+
+                    break;
                 case Key.F2:
                     OpenFileDialog opfModel = new OpenFileDialog();
                     bool result = (bool)opfModel.ShowDialog();
@@ -150,5 +185,7 @@ namespace AssimpSample
                     break;
             }
         }
+
+        public bool ZabranaInterakcije { get; set; }
     }
 }

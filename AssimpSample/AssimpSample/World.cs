@@ -18,6 +18,7 @@ using SharpGL;
 using AssimpSample.Services;
 using SharpGL.Enumerations;
 using SharpGL.SceneGraph.Cameras;
+using Scene = Assimp.Scene;
 
 namespace AssimpSample
 {
@@ -30,23 +31,17 @@ namespace AssimpSample
     {
         #region Atributi
 
-        // Atributi koji uticu na ponasanje FPS kamere
-        private LookAtCamera lookAtCam;
-        private float walkSpeed = 0.1f;
-        float mouseSpeed = 0.005f;
-        double horizontalAngle = 0f;
-        double verticalAngle = 0.0f;
-
-        //Pomocni vektori preko kojih definisemo lookAt funkciju
-        private Vertex direction;
-        private Vertex right;
-        private Vertex up;
-
         // Parametri za animaciju
-        private float pomerajStrele;
-        private bool strelaIzlaziVanZamka;
+        public float PomerajStrele { get; set; }
+        public float PomerajKamere { get; set; }
+        public bool StrelaIzlaziVanZamka { get; set; }
+        public bool ZauzetPolozajKamere { get; set; }
+
         private DispatcherTimer timer1;
         private DispatcherTimer timer2;
+        private DispatcherTimer timer3;
+        private DispatcherTimer timer4;
+        
 
 
         /// <summary>
@@ -232,7 +227,7 @@ namespace AssimpSample
             DefinisiKameru(gl);
 
             IscrtajPodlogu(gl);
-            IscrtajStrelu(gl);
+            IscrtajStrele(gl);
             IscrtajDvorac(gl);
             IscrtajStazu(gl);
             IscrtajZidove(gl);
@@ -249,7 +244,6 @@ namespace AssimpSample
 
         private void DefinisiKameru(OpenGL gl)
         {
-            //gl.LookAt(2,0,0,0,0,0,0,1,0);
             gl.LookAt(0, -10, 5, 0, 0, 0, 0, 0, 1);
         }
 
@@ -316,47 +310,86 @@ namespace AssimpSample
         public void AktivacijaAnimacije()
         {
             timer1.Start();
-            timer2.Start();
         }
 
         public void DeaktivacijaAnimacije()
         {
             timer1.Stop();
             timer2.Stop();
+            timer3.Stop();
+            timer4.Stop();
         }
 
         private void DefinisiTajmereAnimacija()
         {
             timer1 = new DispatcherTimer();
             timer1.Interval = TimeSpan.FromMilliseconds(20);
-            timer1.Tick += new EventHandler(UpdateAnimation1);
+            timer1.Tick += new EventHandler(InicijalnaAnimacija);
 
             timer2 = new DispatcherTimer();
-            timer2.Interval = TimeSpan.FromSeconds(3f);
-            timer2.Tick += new EventHandler(UpdateAnimation2);
+            timer2.Interval = TimeSpan.FromMilliseconds(30);
+            timer2.Tick += new EventHandler(AnimacijaUdaljivanjaKamere);
+
+            timer3 = new DispatcherTimer();
+            timer3.Interval = TimeSpan.FromMilliseconds(20);
+            timer3.Tick += new EventHandler(UpdateAnimation3);
+
+            timer4 = new DispatcherTimer();
+            timer4.Interval = TimeSpan.FromSeconds(3f);
+            timer4.Tick += new EventHandler(UpdateAnimation4);
+        }
+
+        private void InicijalnaAnimacija(object sender, EventArgs e)
+        {
+            SceneDistance = 700.0f;
+            RotationX = 30.0f;
+            RotationY = -180.0f;
+
+            
+            timer1.Stop();
+            timer3.Stop();
+            timer4.Stop();
+
+            timer2.Start();
+        }
+
+        private void AnimacijaUdaljivanjaKamere(object sender, EventArgs e)
+        {
+            SceneDistance -= 60.0f;
+            if (SceneDistance <= -2100.0f)
+            {
+                timer2.Stop();
+
+                SceneDistance = 3400.0f;
+                RotationX = -20.0f;
+                RotationY = -360.0f;
+
+                timer3.Start();
+                timer4.Start();
+            }
         }
 
         /// <summary>
         /// Definiše pomeraj strele
         /// </summary>
-        private void UpdateAnimation1(object sender, EventArgs e)
+        private void UpdateAnimation3(object sender, EventArgs e)
         {
-            if (strelaIzlaziVanZamka)
-                pomerajStrele += 0.5f;
+            if (StrelaIzlaziVanZamka)
+                PomerajStrele += 0.5f;
             else
-                pomerajStrele -= 1f;
+                PomerajStrele -= 1f;
         }
 
         /// <summary>
         /// Obrće smer pomeranja strele
         /// </summary>
-        private void UpdateAnimation2(object sender, EventArgs e)
+        private void UpdateAnimation4(object sender, EventArgs e)
         {
-            if (!strelaIzlaziVanZamka)
+            if (!StrelaIzlaziVanZamka)
             {
-                pomerajStrele = 0f;
+                PomerajStrele = 0f;
             }
-            strelaIzlaziVanZamka = !strelaIzlaziVanZamka;
+            StrelaIzlaziVanZamka = !StrelaIzlaziVanZamka;
         }
 
         /// <summary>
@@ -529,7 +562,7 @@ namespace AssimpSample
             gl.PopMatrix();
         }
 
-        private void IscrtajStrelu(OpenGL gl)
+        private void IscrtajStrele(OpenGL gl)
         {
             int brojStrela = 10;
             for (float idxStrele = 1; idxStrele <= brojStrela; idxStrele++) // float kako ne bih gubio decimale pri deljenju
@@ -539,7 +572,7 @@ namespace AssimpSample
 
                 gl.Scale(5f, 5f, 5f); // povecavam malo strelu, jer je dosta mala
 
-                jedinstveniPomerajStrele = pomerajStrele;
+                jedinstveniPomerajStrele = PomerajStrele;
                 jedinstveniPomerajStrele = Clamp(jedinstveniPomerajStrele, 0f, 3000f);
 
                 gl.Translate(0.0f, -jedinstveniPomerajStrele, idxStrele/3);
