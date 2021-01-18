@@ -16,11 +16,11 @@ namespace AssimpSample.Services
             _world = world;
         }
 
-        public void RenderovanjeZidaDesnoOdDvorca(OpenGL gl)
+        public void RenderovanjeZidaDesnoOdDvorca(OpenGL gl, int transliranjeDesnogZida=0)
         {
             gl.PushMatrix();
             gl.Scale(1.0f, 26.0f, 7.0f);
-            gl.Translate(25.0f, 0.0f, 1.0f);
+            gl.Translate(25.0f + transliranjeDesnogZida, 0.0f, 1.0f);
 
             Cube zidDesnoOdDvorca = new Cube();
             zidDesnoOdDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);

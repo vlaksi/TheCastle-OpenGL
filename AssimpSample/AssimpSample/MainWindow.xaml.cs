@@ -187,5 +187,57 @@ namespace AssimpSample
         }
 
         public bool ZabranaInterakcije { get; set; }
+
+        #region Transliranje desnog zida
+
+        private void TransliranjeDesnogZidaTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool negativanBroj = false;
+            string ucitaniTekst = transliranjeDesnogZidaTextBox.Text;
+
+            if (ucitaniTekst.Length <= 0) return;
+
+            if (ucitaniTekst[0] == '-')
+            {
+                negativanBroj = true;
+                ucitaniTekst = ucitaniTekst.Substring(1, ucitaniTekst.Length - 1);
+            }
+
+
+            if (ucitaniTekst.Length >= 1 & ucitaniTekst.Length <= 3)
+            {
+                if (!IsInputNumber(ucitaniTekst)) return;
+                var vrednostTransliranjaDesnogZida = ParsirajInput(ucitaniTekst, negativanBroj);
+                PostaviVrednostTransliranja(vrednostTransliranjaDesnogZida);
+            }
+        }
+
+        private void PostaviVrednostTransliranja(int vrednostTransliranjaDesnogZida)
+        {
+            if (m_world != null)
+                m_world.TranslacijaDesnogZida += vrednostTransliranjaDesnogZida;
+        }
+
+        private int ParsirajInput(string ucitaniTekst, bool negativanBroj)
+        {
+            int vrednostTransliranjaDesnogZida = Convert.ToInt16(ucitaniTekst, 10);
+            if (negativanBroj)
+                vrednostTransliranjaDesnogZida *= -1;
+            return vrednostTransliranjaDesnogZida;
+        }
+
+        private bool IsInputNumber(string ucitaniTekst)
+        {
+            foreach (char tempChar in ucitaniTekst)
+            {
+                if (!Char.IsDigit(tempChar))
+                    return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
     }
 }

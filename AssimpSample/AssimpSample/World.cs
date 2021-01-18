@@ -43,6 +43,9 @@ namespace AssimpSample
         private DispatcherTimer timer4;
         
 
+        // parametri za interakciju preko wpf kontrola
+        public int TranslacijaDesnogZida { get; set; }
+
 
         /// <summary>
         ///	 Scena koja se prikazuje.
@@ -512,7 +515,7 @@ namespace AssimpSample
 
             _wallFactory.RenderovanjeZidaIzaDvorca(gl);
             _wallFactory.RenderovanjeZidaLevoOdDvorca(gl);
-            _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl);
+            _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl,TranslacijaDesnogZida);
 
             gl.Enable(OpenGL.GL_CULL_FACE);
         }
