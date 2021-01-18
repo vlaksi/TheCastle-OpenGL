@@ -203,11 +203,7 @@ namespace AssimpSample
             UkljuciTestiranjeDubine(gl);
             UkljuciSakrivanjeNevidljivihPovrsina(gl);
 
-            SetupLighting(gl);
-
-            //UkljuciColorTrackingMehanizam(gl);
-            //DefinisiKomponenteMaterijala(gl);
-            //gl.LightModel(LightModelParameter.Ambient, whiteLight);
+            PodesiOsvetljenje(gl);
 
             DefinisiTajmereAnimacija();
 
@@ -414,12 +410,12 @@ namespace AssimpSample
         /// <summary>
         /// Podesavanje osvetljenja
         /// </summary>
-        private void SetupLighting(OpenGL gl)
+        private void PodesiOsvetljenje(OpenGL gl)
         {
             float[] global_ambient = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
             gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, global_ambient);
 
-            float[] light0pos = new float[] { 0.0f, 10.0f, -10.0f, 1.0f };
+            float[] light0pos = new float[] { 100.0f, 1.0f, -7100.0f, 1.0f };
             float[] light0ambient = new float[] { 0.4f, 0.4f, 0.4f, 1.0f };
             float[] light0diffuse = new float[] { 0.3f, 0.3f, 0.3f, 1.0f };
             float[] light0specular = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
@@ -429,6 +425,9 @@ namespace AssimpSample
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, light0ambient);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, light0diffuse);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPOT_CUTOFF, 180.0f); //TACKASTI IZVOR
+
+
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT0);
 
@@ -532,7 +531,11 @@ namespace AssimpSample
 
             var visina = 50.0f;
             var sirina = 2.5f;
+
+            gl.Color(0.2f,0.2f,0.9f,1.0f);
+
             gl.Begin(OpenGL.GL_QUADS);
+            gl.Normal(0.0f, 1.0f, 0.0f);
             gl.Vertex(-sirina, -sirina);
             gl.Vertex(-sirina, -visina);
             gl.Vertex(sirina, -visina);
@@ -552,6 +555,8 @@ namespace AssimpSample
 
             gl.FrontFace(OpenGL.GL_CCW);
             gl.Begin(OpenGL.GL_QUADS);
+            gl.Normal(0.0f,1.0f,0.0f);
+
             gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
             gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
             gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, baznaKordinata * koeficijentVelicinePodloge);
