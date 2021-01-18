@@ -188,6 +188,39 @@ namespace AssimpSample
 
         public bool ZabranaInterakcije { get; set; }
 
+
+        #region Rotacija levog zastitnog zida
+
+        private void RotacijaLevogZidaTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool negativanBroj = false;
+            string ucitaniTekst = rotacijaLevogZidaTextBox.Text;
+
+            if (ucitaniTekst.Length <= 0) return;
+
+            if (ucitaniTekst[0] == '-')
+            {
+                negativanBroj = true;
+                ucitaniTekst = ucitaniTekst.Substring(1, ucitaniTekst.Length - 1);
+            }
+
+            if (ucitaniTekst.Length >= 1 & ucitaniTekst.Length <= 3)
+            {
+                if (!IsInputNumber(ucitaniTekst)) return;
+                var vrednostRotacijeLevogZida = ParsirajInput(ucitaniTekst, negativanBroj);
+                PostaviVrednostRotacije(vrednostRotacijeLevogZida);
+            }
+        }
+
+        private void PostaviVrednostRotacije(int vrednostRotacijeLevogZida)
+        {
+            if (m_world != null)
+                m_world.RotacijaLevogZida += vrednostRotacijeLevogZida;
+        }
+
+        #endregion
+
+
         #region Transliranje desnog zida
 
         private void TransliranjeDesnogZidaTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -218,12 +251,12 @@ namespace AssimpSample
                 m_world.TranslacijaDesnogZida += vrednostTransliranjaDesnogZida;
         }
 
-        private int ParsirajInput(string ucitaniTekst, bool negativanBroj)
+        private int ParsirajInput(string ucitaniTekst, bool negativanBroj=false)
         {
-            int vrednostTransliranjaDesnogZida = Convert.ToInt16(ucitaniTekst, 10);
+            int parsiranInput = Convert.ToInt16(ucitaniTekst, 10);
             if (negativanBroj)
-                vrednostTransliranjaDesnogZida *= -1;
-            return vrednostTransliranjaDesnogZida;
+                parsiranInput *= -1;
+            return parsiranInput;
         }
 
         private bool IsInputNumber(string ucitaniTekst)
@@ -238,6 +271,7 @@ namespace AssimpSample
         }
 
         #endregion
+
 
     }
 }

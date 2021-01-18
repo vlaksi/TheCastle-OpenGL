@@ -45,6 +45,7 @@ namespace AssimpSample
 
         // parametri za interakciju preko wpf kontrola
         public int TranslacijaDesnogZida { get; set; }
+        public int RotacijaLevogZida { get; set; }
 
 
         /// <summary>
@@ -514,7 +515,7 @@ namespace AssimpSample
             gl.Disable(OpenGL.GL_CULL_FACE);
 
             _wallFactory.RenderovanjeZidaIzaDvorca(gl);
-            _wallFactory.RenderovanjeZidaLevoOdDvorca(gl);
+            _wallFactory.RenderovanjeZidaLevoOdDvorca(gl, RotacijaLevogZida);
             _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl,TranslacijaDesnogZida);
 
             gl.Enable(OpenGL.GL_CULL_FACE);

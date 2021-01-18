@@ -8,14 +8,25 @@
         <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Label x:Name="transliranjeDesnogZidaLabel" Content="Translacija desnog zida" Height="26" VerticalAlignment="Top"/>
+                    <Label x:Name="transliranjeDesnogZidaLabel"
+                           Content="Translacija desnog zida"
+                           Height="26" VerticalAlignment="Top"/>
                     <TextBox Name="transliranjeDesnogZidaTextBox" Width="30" Text="001"
                              HorizontalAlignment="Center" 
                              VerticalAlignment="Center" 
                              TextChanged="TransliranjeDesnogZidaTextBox_OnTextChanged"/>
+
+                    <Label x:Name="rotacijaLevogZidaLabel"
+                           Content="Rotacija levog zida"
+                           Height="26" VerticalAlignment="Top"/>
+                    <TextBox Name="rotacijaLevogZidaTextBox" Width="30" Text="001"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             TextChanged="RotacijaLevogZidaTextBox_OnTextChanged"/>
+
                 </ToolBar>
             </ToolBarTray>
-            
+
 
             <!-- The OpenGL control provides a OpenGL drawing surface. -->
             <sharpGL:OpenGLControl 
