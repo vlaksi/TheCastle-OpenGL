@@ -207,8 +207,6 @@ namespace AssimpSample
             //DefinisiKomponenteMaterijala(gl);
             //gl.LightModel(LightModelParameter.Ambient, whiteLight);
 
-
-            PodesiInicijalneParametreKamere(gl);
             DefinisiTajmereAnimacija();
 
             m_scene_arrow.LoadScene();
@@ -225,33 +223,37 @@ namespace AssimpSample
         {
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            ResetovanjeProjekcije(gl);
+            ResetujProjekciju(gl);
 
             gl.PushMatrix();
-            OsnovneInteraktivneTransformacije(gl);
-            SkaliranjeCitaveScene(gl);
+            PodesiInteraktivneTransformacije(gl);
+            SkalirajCitavuScenu(gl);
 
             DefinisiKameru(gl);
 
-            ManipulacijaPodlogom(gl);
-            ManipulacijaStrelom(gl);
-            ManipulacijaDvorcem(gl);
-            ManipulacijaStazom(gl);
-            ManipulacijaZastitnimZidovima(gl);
+            IscrtajPodlogu(gl);
+            IscrtajStrelu(gl);
+            IscrtajDvorac(gl);
+            IscrtajStazu(gl);
+            IscrtajZidove(gl);
             gl.PopMatrix();
 
-            ManipulacijaTekstom(gl);
-            // Oznaci kraj iscrtavanja
+            IspisiTekst(gl);
+            OznaciKrajIscrtavanja(gl);
+        }
+
+        private void OznaciKrajIscrtavanja(OpenGL gl)
+        {
             gl.Flush();
         }
 
-        private static void DefinisiKameru(OpenGL gl)
+        private void DefinisiKameru(OpenGL gl)
         {
             //gl.LookAt(2,0,0,0,0,0,0,1,0);
             gl.LookAt(0, -10, 5, 0, 0, 0, 0, 0, 1);
         }
 
-        private void SkaliranjeCitaveScene(OpenGL gl)
+        private void SkalirajCitavuScenu(OpenGL gl)
         {
             var koeficijentSkaliranja = 60.0f;
             gl.Scale(koeficijentSkaliranja, koeficijentSkaliranja, koeficijentSkaliranja);
@@ -293,7 +295,7 @@ namespace AssimpSample
         {
             m_width = width;
             m_height = height;
-            ResetovanjeProjekcije(gl);
+            ResetujProjekciju(gl);
         }
 
         /// <summary>
@@ -367,37 +369,6 @@ namespace AssimpSample
 
         #endregion
 
-        #region Metode kamere
-
-        /// <summary>
-        ///  Azurira poziciju kamere preko tipki tastature
-        /// </summary>
-        public void UpdateCameraPosition(int deltaX, int deltaY, int deltaZ)
-        {
-            Vertex deltaForward = direction * deltaZ;
-            Vertex deltaStrafe = right * deltaX;
-            Vertex deltaUp = up * deltaY;
-            Vertex delta = deltaForward + deltaStrafe + deltaUp;
-            lookAtCam.Position += (delta * walkSpeed);
-            lookAtCam.Target = lookAtCam.Position + direction;
-            lookAtCam.UpVector = up;
-        }
-
-        private void PodesiInicijalneParametreKamere(OpenGL gl)
-        {
-            lookAtCam = new LookAtCamera();
-            lookAtCam.Position = new Vertex(0f, 0f, 0f);    // eyex, eyey, eyez – tačka posmatranja,
-            lookAtCam.Target = new Vertex(0f, 0f, -10f);    // centerx, centery, centerz – vektor koji opisuje tačku u koju kamera gleda, 
-            lookAtCam.UpVector = new Vertex(0f, 1f, 0f);    // upx, upy, upz – vektor koji određuje pravac i smer na gore (upward vector).
-
-            right = new Vertex(1f, 0f, 0f);
-            direction = new Vertex(0f, 0f, -1f);
-            lookAtCam.Target = lookAtCam.Position + direction;
-            lookAtCam.Project(gl);
-        }
-
-        #endregion
-
         #region Metode osvetljenja
 
         /// <summary>
@@ -455,7 +426,7 @@ namespace AssimpSample
 
         #region Metoda iscrtavanja
 
-        private void ManipulacijaTekstom(OpenGL gl)
+        private void IspisiTekst(OpenGL gl)
         {
 
             #region Postavljanje gluOrtho2D
@@ -502,7 +473,7 @@ namespace AssimpSample
             #endregion
         }
 
-        private void ManipulacijaZastitnimZidovima(OpenGL gl)
+        private void IscrtajZidove(OpenGL gl)
         {
             gl.Disable(OpenGL.GL_CULL_FACE);
 
@@ -513,7 +484,7 @@ namespace AssimpSample
             gl.Enable(OpenGL.GL_CULL_FACE);
         }
 
-        private void ManipulacijaStazom(OpenGL gl)
+        private void IscrtajStazu(OpenGL gl)
         {
             gl.PushMatrix();
 
@@ -531,7 +502,7 @@ namespace AssimpSample
             gl.PopMatrix();
         }
 
-        private void ManipulacijaPodlogom(OpenGL gl)
+        private void IscrtajPodlogu(OpenGL gl)
         {
             gl.PushMatrix();
 
@@ -550,7 +521,7 @@ namespace AssimpSample
             gl.PopMatrix();
         }
 
-        private void ManipulacijaDvorcem(OpenGL gl)
+        private void IscrtajDvorac(OpenGL gl)
         {
             gl.PushMatrix();
             gl.Scale(2f, 2f, 2f);
@@ -558,7 +529,7 @@ namespace AssimpSample
             gl.PopMatrix();
         }
 
-        private void ManipulacijaStrelom(OpenGL gl)
+        private void IscrtajStrelu(OpenGL gl)
         {
             int brojStrela = 10;
             for (float idxStrele = 1; idxStrele <= brojStrela; idxStrele++) // float kako ne bih gubio decimale pri deljenju
@@ -585,14 +556,14 @@ namespace AssimpSample
         /// Interaktivne transformacije u smislu da primenom w,a,s,d kao i +,- kontrola mozemo interagovati s nasom scenom
         /// </summary>
         /// <param name="gl"></param>
-        private void OsnovneInteraktivneTransformacije(OpenGL gl)
+        private void PodesiInteraktivneTransformacije(OpenGL gl)
         {
             gl.Translate(0.0f, 1.0f, -m_sceneDistance);
             gl.Rotate(m_xRotation, 1.0f, 0.0f, 0.0f);
             gl.Rotate(m_yRotation, 0.0f, 1.0f, 0.0f);
         }
 
-        private void ResetovanjeProjekcije(OpenGL gl)
+        private void ResetujProjekciju(OpenGL gl)
         {
             gl.Viewport(0, 0, m_width, m_height); // kreiranje viewport-a po celom prozoru
             gl.MatrixMode(OpenGL.GL_PROJECTION); // selektuj Projection Matrix
