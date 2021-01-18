@@ -195,6 +195,7 @@ namespace AssimpSample
         /// </summary>
         public void Initialize(OpenGL gl)
         {
+            float[] whiteLight = { 0.0f, 0.0f, 1.0f, 1.0f };
             gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.Color(1f, 0f, 0f);
             UkljuciTestiranjeDubine(gl);
@@ -202,8 +203,9 @@ namespace AssimpSample
 
             SetupLighting(gl);
 
-            UkljuciColorTrackingMehanizam(gl);
-            DefinisiKomponenteMaterijala(gl);
+            //UkljuciColorTrackingMehanizam(gl);
+            //DefinisiKomponenteMaterijala(gl);
+            //gl.LightModel(LightModelParameter.Ambient, whiteLight);
 
 
             PodesiInicijalneParametreKamere(gl);
@@ -229,9 +231,7 @@ namespace AssimpSample
             OsnovneInteraktivneTransformacije(gl);
             SkaliranjeCitaveScene(gl);
 
-            //Unosi transformacije u ModelView matricu koristeći svoje trenutno podešene parametre
-            // TODO: Skontati zasto mi ne radi ovo s kamerom ?
-            //lookAtCam.Project(gl);
+            DefinisiKameru(gl);
 
             ManipulacijaPodlogom(gl);
             ManipulacijaStrelom(gl);
@@ -243,6 +243,12 @@ namespace AssimpSample
             ManipulacijaTekstom(gl);
             // Oznaci kraj iscrtavanja
             gl.Flush();
+        }
+
+        private static void DefinisiKameru(OpenGL gl)
+        {
+            //gl.LookAt(2,0,0,0,0,0,0,1,0);
+            gl.LookAt(0, -10, 5, 0, 0, 0, 0, 0, 1);
         }
 
         private void SkaliranjeCitaveScene(OpenGL gl)
@@ -334,9 +340,9 @@ namespace AssimpSample
         private void UpdateAnimation1(object sender, EventArgs e)
         {
             if (strelaIzlaziVanZamka)
-                pomerajStrele += 0.1f;
+                pomerajStrele += 0.5f;
             else
-                pomerajStrele -= 0.2f;
+                pomerajStrele -= 1f;
         }
 
         /// <summary>
@@ -402,10 +408,11 @@ namespace AssimpSample
             float[] global_ambient = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
             gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, global_ambient);
 
-            float[] light0pos = new float[] { 0.0f, 0.0f, -4.0f, 1.0f };
+            float[] light0pos = new float[] { 0.0f, 10.0f, -10.0f, 1.0f };
             float[] light0ambient = new float[] { 0.4f, 0.4f, 0.4f, 1.0f };
             float[] light0diffuse = new float[] { 0.3f, 0.3f, 0.3f, 1.0f };
             float[] light0specular = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
+
 
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light0pos);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, light0ambient);
@@ -413,6 +420,22 @@ namespace AssimpSample
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT0);
+
+            // Definisemo belu spekularnu komponentu materijala sa jakim odsjajem
+            gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SPECULAR, light0specular);
+            gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SHININESS, 128.0f);
+
+            //Uikljuci color tracking mehanizam
+            gl.Enable(OpenGL.GL_COLOR_MATERIAL);
+
+            // Podesi na koje parametre materijala se odnose pozivi glColor funkcije
+            gl.ColorMaterial(OpenGL.GL_FRONT, OpenGL.GL_AMBIENT_AND_DIFFUSE);
+
+            // Ukljuci automatsku normalizaciju nad normalama
+            gl.Enable(OpenGL.GL_NORMALIZE);
+
+
+            gl.ShadeModel(OpenGL.GL_SMOOTH);
         }
 
         #endregion
@@ -430,7 +453,7 @@ namespace AssimpSample
 
         #endregion IDisposable metode
 
-        #region Moje pomocne metode
+        #region Metoda iscrtavanja
 
         private void ManipulacijaTekstom(OpenGL gl)
         {
@@ -556,6 +579,7 @@ namespace AssimpSample
                 gl.PopMatrix();
             }
         }
+
 
         /// <summary>
         /// Interaktivne transformacije u smislu da primenom w,a,s,d kao i +,- kontrola mozemo interagovati s nasom scenom

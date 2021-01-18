@@ -129,12 +129,6 @@ namespace AssimpSample
                     break;
                 case Key.Add: m_world.SceneDistance -= 700.0f; break;
                 case Key.Subtract: m_world.SceneDistance += 700.0f; break;
-                case Key.W: m_world.UpdateCameraPosition(0, 0, 1); break;
-                case Key.S: m_world.UpdateCameraPosition(0, 0, -1); break;
-                case Key.A: m_world.UpdateCameraPosition(-1, 0, 0); break;
-                case Key.D: m_world.UpdateCameraPosition(1, 0, 0); break;
-                case Key.Q: m_world.UpdateCameraPosition(0, 1, 0); break;
-                case Key.E: m_world.UpdateCameraPosition(0, -1, 0); break;
                 case Key.F2:
                     OpenFileDialog opfModel = new OpenFileDialog();
                     bool result = (bool)opfModel.ShowDialog();
