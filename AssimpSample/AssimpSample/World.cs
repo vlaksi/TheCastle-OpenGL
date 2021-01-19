@@ -194,8 +194,8 @@ namespace AssimpSample
             sceneFileName = "Arrow.dae";
             this.m_scene_arrow = new AssimpScene(scenePathForArrow, sceneFileName, gl);
 
-            var scenePathForCastle = scenePath + "\\Castle";
-            sceneFileName = "CastleModel.obj";
+            var scenePathForCastle = scenePath + "\\NewCastle";
+            sceneFileName = "castle.obj";
             this.m_scene_castle = new AssimpScene(scenePathForCastle, sceneFileName, gl);
 
             this.m_width = width;
@@ -672,7 +672,10 @@ namespace AssimpSample
         private void IscrtajDvorac(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Scale(2f, 2f, 2f);
+            var faktorSkaliranjaStrele = 10.0f;
+            gl.Translate(0.0f,0.0f,2.0f);
+            gl.Rotate(90.0f,1.0f,0.0f,0.0f);
+            gl.Scale(faktorSkaliranjaStrele * 5f, faktorSkaliranjaStrele * 5.0f, faktorSkaliranjaStrele * 5f);
             m_scene_castle.Draw();
             gl.PopMatrix();
         }

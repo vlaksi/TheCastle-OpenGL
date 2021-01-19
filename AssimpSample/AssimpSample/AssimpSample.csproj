@@ -115,6 +115,8 @@
     <None Include="3D Models\Castle\CastleModel.obj" />
     <None Include="3D Models\Duck\duck.dae" />
     <None Include="3D Models\Duck\Thumbs.db" />
+    <None Include="3D Models\NewCastle\castle.mtl" />
+    <None Include="3D Models\NewCastle\castle.obj" />
     <None Include="3D Models\Touareg\Touareg.3DS">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -138,6 +140,10 @@
     <Resource Include="images\fence.png" />
     <Resource Include="images\pavedMud.jpg" />
     <Resource Include="3D Models\Castle\13020_Aquarium_Castle_diff.jpg" />
+    <Resource Include="3D Models\NewCastle\Castle Exterior Texture Bump.jpg" />
+    <Resource Include="3D Models\NewCastle\Castle Interior Texture.jpg" />
+    <Resource Include="3D Models\NewCastle\Ground and Fountain Texture.jpg" />
+    <Resource Include="3D Models\NewCastle\Towers Doors and Windows Texture.jpg" />
     <Content Include="AssimpLib\Assimp32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

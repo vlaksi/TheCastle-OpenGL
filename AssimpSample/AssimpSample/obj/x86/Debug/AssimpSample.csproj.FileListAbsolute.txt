@@ -45,4 +45,3 @@ C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x
 C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csproj.CopyComplete
 C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.exe
 C:\Users\vaxi\Desktop\semestar-7\Grafika-project\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.pdb
-C:\Users\Vaksi\Desktop\semestar-7\TheCastle-OpenGL\AssimpSample\AssimpSample\obj\x86\Debug\AssimpSample.csprojAssemblyReference.cache

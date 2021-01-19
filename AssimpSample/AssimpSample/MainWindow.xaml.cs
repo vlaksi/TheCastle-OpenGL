@@ -48,7 +48,11 @@ namespace AssimpSample
             // Kreiranje OpenGL sveta
             try
             {
-                m_world = new World(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "3D Models"), "Arrow.dae", (int)openGLControl.Width, (int)openGLControl.Height, openGLControl.OpenGL);
+                m_world = new World(
+                    Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "3D Models"),
+                    "Arrow.dae",
+                    (int)openGLControl.Width,
+                    (int)openGLControl.Height, openGLControl.OpenGL);
                 _coordinateValidator = new CoordinateValidator();
                 //m_world = new World(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "3D Models\\Arrow"), "Arrow.dae", (int)openGLControl.Width, (int)openGLControl.Height, openGLControl.OpenGL);
             }
@@ -139,10 +143,10 @@ namespace AssimpSample
                 case Key.L:
                     if (!ZabranaInterakcije)
                     {
-                    if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
-                        m_world.RotationY += 5.0f;
-                    else
-                        m_world.RotationY -= 5.0f;
+                        if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
+                            m_world.RotationY += 5.0f;
+                        else
+                            m_world.RotationY -= 5.0f;
                     }
                     break;
                 case Key.Add:
@@ -245,7 +249,7 @@ namespace AssimpSample
                 m_world.TranslacijaDesnogZida += vrednostTransliranjaDesnogZida;
         }
 
-        private int ParsirajInput(string ucitaniTekst, bool negativanBroj=false)
+        private int ParsirajInput(string ucitaniTekst, bool negativanBroj = false)
         {
             int parsiranInput = Convert.ToInt16(ucitaniTekst, 10);
             if (negativanBroj)
