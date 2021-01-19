@@ -110,6 +110,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="3D Models\Arrow\Arrow.dae" />
+    <None Include="3D Models\Castle\Castle.mtl" />
+    <None Include="3D Models\Castle\CastleModel.obj" />
     <None Include="3D Models\Duck\duck.dae" />
     <None Include="3D Models\Duck\Thumbs.db" />
     <None Include="3D Models\Touareg\Touareg.3DS">
@@ -131,6 +134,7 @@
     <Resource Include="3D Models\Duck\duckCM.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="3D Models\Castle\13020_Aquarium_Castle_diff.jpg" />
     <Content Include="AssimpLib\Assimp32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -140,6 +144,9 @@
     <Content Include="AssimpLib\AssimpNet.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="images\floor.jpg" />
+    <Resource Include="images\ceiling.jpg" />
+    <Resource Include="images\brick.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,6 +6,8 @@
 // <summary>Klasa koja enkapsulira OpenGL programski kod.</summary>
 // -----------------------------------------------------------------------
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Assimp;
 using System.IO;
 using System.Reflection;
@@ -47,6 +49,22 @@ namespace AssimpSample
         public int TranslacijaDesnogZida { get; set; }
         public int RotacijaLevogZida { get; set; }
         public int FaktorSkaliranjaStrele { get; set; }
+
+        /// <summary>
+        ///	 Identifikatori tekstura za jednostavniji pristup teksturama
+        /// </summary>
+        private enum TextureObjects { Brick = 0, Floor, Ceiling };
+        private readonly int m_textureCount = Enum.GetNames(typeof(TextureObjects)).Length;
+
+        /// <summary>
+        ///	 Identifikatori OpenGL tekstura
+        /// </summary>
+        private uint[] m_textures = null;
+
+        /// <summary>
+        ///	 Putanje do slika koje se koriste za teksture
+        /// </summary>
+        private string[] m_textureFiles = { "..//..//images//brick.jpg", "..//..//images//floor.jpg", "..//..//images//ceiling.jpg" };
 
 
         /// <summary>
@@ -177,6 +195,8 @@ namespace AssimpSample
             this.m_height = height;
             _wallFactory = new WallFactory(this);
 
+            m_textures = new uint[m_textureCount];
+
             FaktorSkaliranjaStrele = 1;
         }
 
@@ -197,20 +217,55 @@ namespace AssimpSample
         /// </summary>
         public void Initialize(OpenGL gl)
         {
-            float[] whiteLight = { 0.0f, 0.0f, 1.0f, 1.0f };
             gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.Color(1f, 0f, 0f);
             UkljuciTestiranjeDubine(gl);
             UkljuciSakrivanjeNevidljivihPovrsina(gl);
 
             PodesiOsvetljenje(gl);
-
             DefinisiTajmereAnimacija();
+            PodesiTeksture(gl);
 
             m_scene_arrow.LoadScene();
             m_scene_arrow.Initialize();
             m_scene_castle.LoadScene();
             m_scene_castle.Initialize();
+        }
+
+        private void PodesiTeksture(OpenGL gl)
+        {
+            // Predji u rezim rada sa 2D teksturama
+            gl.Enable(OpenGL.GL_TEXTURE_2D);
+
+            // Teksture se primenjuju sa parametrom modulate
+            gl.TexEnv(OpenGL.GL_TEXTURE_ENV, OpenGL.GL_TEXTURE_ENV_MODE, OpenGL.GL_MODULATE);
+
+            // Ucitaj slike i kreiraj teksture
+            gl.GenTextures(m_textureCount, m_textures);
+            for (int i = 0; i < m_textureCount; ++i)
+            {
+                // Pridruzi teksturu odgovarajucem identifikatoru
+                gl.BindTexture(OpenGL.GL_TEXTURE_2D, m_textures[i]);
+
+                // Ucitaj sliku i podesi parametre teksture
+                Bitmap image = new Bitmap(m_textureFiles[i]);
+                // rotiramo sliku zbog koordinantog sistema opengl-a
+                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
+                // RGBA format (dozvoljena providnost slike tj. alfa kanal)
+                BitmapData imageData = image.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                gl.Build2DMipmaps(OpenGL.GL_TEXTURE_2D, (int)OpenGL.GL_RGBA8, image.Width, image.Height, OpenGL.GL_BGRA, OpenGL.GL_UNSIGNED_BYTE, imageData.Scan0);
+                gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, OpenGL.GL_LINEAR);		// Linear Filtering
+                gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, OpenGL.GL_LINEAR);		// Linear Filtering
+                gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_S, OpenGL.GL_REPEAT);
+                gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_T, OpenGL.GL_REPEAT);
+
+                // Posto je kreirana tekstura slika nam vise ne treba
+                image.UnlockBits(imageData);
+                image.Dispose();
+            }
         }
 
 
@@ -230,7 +285,7 @@ namespace AssimpSample
             DefinisiKameru(gl);
 
             IscrtajPodlogu(gl);
-            IscrtajStrele(gl,FaktorSkaliranjaStrele);
+            IscrtajStrele(gl, FaktorSkaliranjaStrele);
             IscrtajDvorac(gl);
             IscrtajStazu(gl);
             IscrtajZidove(gl);
@@ -532,7 +587,7 @@ namespace AssimpSample
             var visina = 50.0f;
             var sirina = 2.5f;
 
-            gl.Color(0.2f,0.2f,0.9f,1.0f);
+            gl.Color(0.2f, 0.2f, 0.9f, 1.0f);
 
             gl.Begin(OpenGL.GL_QUADS);
             gl.Normal(0.0f, 1.0f, 0.0f);
@@ -554,12 +609,21 @@ namespace AssimpSample
             gl.Color(0.72f, 1.0f, 0.8f);        // rgb(186,255,205) - ali Color metoda ocekuje vrednosti od 0-1 pa sam skalirao na taj opseg
 
             gl.FrontFace(OpenGL.GL_CCW);
-            gl.Begin(OpenGL.GL_QUADS);
-            gl.Normal(0.0f,1.0f,0.0f);
 
+            gl.BindTexture(OpenGL.GL_TEXTURE_2D, m_textures[(int)TextureObjects.Floor]);
+            gl.Begin(OpenGL.GL_QUADS);
+            gl.Normal(0.0f, 1.0f, 0.0f);
+
+            gl.TexCoord(0.0f, 0.0f);
             gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
+            
+            gl.TexCoord(0.0f, 1.0f);
             gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
+
+            gl.TexCoord(1.0f, 1.0f);
             gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, baznaKordinata * koeficijentVelicinePodloge);
+
+            gl.TexCoord(1.0f, 0.0f);
             gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, baznaKordinata * koeficijentVelicinePodloge);
             gl.End();
 
