@@ -285,6 +285,9 @@ namespace AssimpSample
 
             ResetujProjekciju(gl);
 
+            DefinisiOsvetljenjeLevoGore(gl);
+            DefinisiOsvetljenjeIznadDvorca(gl);
+
             gl.PushMatrix();
             PodesiInteraktivneTransformacije(gl);
             SkalirajCitavuScenu(gl);
@@ -476,23 +479,16 @@ namespace AssimpSample
         {
             float[] global_ambient = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
             gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, global_ambient);
-
-            var scenaPomeraPoZ = m_sceneDistance; // tj. 7000
-            float[] light0pos = new float[] { -10.0f, 100.0f, scenaPomeraPoZ, 1.0f };
-            float[] light0ambient = new float[] { 0.4f, 0.4f, 0.4f, 1.0f };
-            float[] light0diffuse = new float[] { 0.3f, 0.3f, 0.3f, 1.0f };
             float[] light0specular = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
 
-
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light0pos);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, light0ambient);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, light0diffuse);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPOT_CUTOFF, 180.0f); //TACKASTI IZVOR
+            DefinisiOsvetljenjeLevoGore(gl);
+            DefinisiOsvetljenjeIznadDvorca(gl);
 
 
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT0);
+            gl.Enable(OpenGL.GL_LIGHT1);
+
 
             // Definisemo belu spekularnu komponentu materijala sa jakim odsjajem
             gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SPECULAR, light0specular);
@@ -509,6 +505,41 @@ namespace AssimpSample
 
 
             gl.ShadeModel(OpenGL.GL_SMOOTH);
+        }
+
+        private void DefinisiOsvetljenjeIznadDvorca(OpenGL gl)
+        {
+            var scenaPomeraPoZ = m_sceneDistance; // tj. 7000
+            float[] light1pos = new float[] {0.0f, 10.0f, scenaPomeraPoZ, 1.0f};
+            float[] light1ambient = new float[] {0.4f, 0.4f, 0.4f, 1.0f};
+            float[] light1diffuse = new float[] {0.3f, 0.3f, 0.3f, 1.0f};
+            float[] light1specular = new float[] {0.8f, 0.8f, 0.8f, 1.0f};
+            float[] smer = { 0.0f, -1.0f, 0.0f };
+
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, light1pos);
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_AMBIENT, light1ambient);
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_DIFFUSE, light1diffuse);
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPECULAR, light1specular);
+
+            // Podesi parametre reflektorkskog izvora
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPOT_DIRECTION, smer);
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPOT_CUTOFF, 45.0f); //TACKASTI IZVOR
+        }
+
+        private void DefinisiOsvetljenjeLevoGore(OpenGL gl)
+        {
+            var scenaPomeraPoZ = m_sceneDistance; // tj. 7000
+            float[] light0pos = new float[] {-10.0f, 100.0f, scenaPomeraPoZ, 1.0f};
+            float[] light0ambient = new float[] {0.4f, 0.4f, 0.4f, 1.0f};
+            float[] light0diffuse = new float[] {0.3f, 0.3f, 0.3f, 1.0f};
+            float[] light0specular = new float[] {0.8f, 0.8f, 0.8f, 1.0f};
+
+
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light0pos);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, light0ambient);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, light0diffuse);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
+            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPOT_CUTOFF, 180.0f); //TACKASTI IZVOR
         }
 
         #endregion
@@ -674,6 +705,9 @@ namespace AssimpSample
         {
 
             gl.Color(0.9,0.9,0.9,1.0);
+            float[] pozicija = { 0.0f, 10.0f, 0.0f, 1.0f };
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, pozicija);
+
             gl.PushMatrix();
             var faktorSkaliranjaDvorca = 10.0f;
             gl.Translate(0.0f,0.0f,-0.2f);
