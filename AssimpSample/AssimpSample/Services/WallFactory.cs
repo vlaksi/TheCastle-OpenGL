@@ -46,7 +46,6 @@ namespace AssimpSample.Services
             gl.Translate(0.0f, 25.0f, 1.0f);
 
             Cube zidIzaDvorca = new Cube();
-            gl.Color(0.9f,0.3f,0.3f,1.0f);
             zidIzaDvorca.Render(gl, SharpGL.SceneGraph.Core.RenderMode.Render);
             gl.PopMatrix();
         }

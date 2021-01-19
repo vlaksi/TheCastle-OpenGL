@@ -53,7 +53,7 @@ namespace AssimpSample
         /// <summary>
         ///	 Identifikatori tekstura za jednostavniji pristup teksturama
         /// </summary>
-        private enum TextureObjects { Brick = 0, Floor, Ceiling };
+        private enum TextureObjects { Brick = 0, Floor, Ceiling, PavedMud, Fence, Grass };
         private readonly int m_textureCount = Enum.GetNames(typeof(TextureObjects)).Length;
 
         /// <summary>
@@ -64,7 +64,14 @@ namespace AssimpSample
         /// <summary>
         ///	 Putanje do slika koje se koriste za teksture
         /// </summary>
-        private string[] m_textureFiles = { "..//..//images//brick.jpg", "..//..//images//floor.jpg", "..//..//images//ceiling.jpg" };
+        private string[] m_textureFiles = {
+            "..//..//images//brick.jpg",
+            "..//..//images//floor.jpg",
+            "..//..//images//ceiling.jpg",
+            "..//..//images//pavedMud.jpg",
+            "..//..//images//fence.png",
+            "..//..//images//grass.jpg",
+        };
 
 
         /// <summary>
@@ -571,6 +578,10 @@ namespace AssimpSample
         {
             gl.Disable(OpenGL.GL_CULL_FACE);
 
+            gl.Color(0.9f, 0.9f, 0.9f, 1.0f);
+
+            gl.BindTexture(OpenGL.GL_TEXTURE_2D, m_textures[(int)TextureObjects.Fence]);
+
             _wallFactory.RenderovanjeZidaIzaDvorca(gl);
             _wallFactory.RenderovanjeZidaLevoOdDvorca(gl, RotacijaLevogZida);
             _wallFactory.RenderovanjeZidaDesnoOdDvorca(gl, TranslacijaDesnogZida);
@@ -587,15 +598,34 @@ namespace AssimpSample
             var visina = 50.0f;
             var sirina = 2.5f;
 
-            gl.Color(0.2f, 0.2f, 0.9f, 1.0f);
+            gl.Color(0.98f, 0.95f, 0.94f, 1.0f);
 
+
+            // Prelazim na matricu teksture kako bih skalirao teksturu
+            gl.MatrixMode(OpenGL.GL_TEXTURE);
+            gl.PushMatrix();
+            var koficijentSkaliranjaTeksture = 5f;
+            gl.Scale(koficijentSkaliranjaTeksture, koficijentSkaliranjaTeksture, koficijentSkaliranjaTeksture);
+
+            gl.BindTexture(OpenGL.GL_TEXTURE_2D, m_textures[(int)TextureObjects.PavedMud]);
             gl.Begin(OpenGL.GL_QUADS);
             gl.Normal(0.0f, 1.0f, 0.0f);
+
+            gl.TexCoord(0.0f, 0.0f);
             gl.Vertex(-sirina, -sirina);
+
+            gl.TexCoord(0.0f, 1.0f);
             gl.Vertex(-sirina, -visina);
+
+            gl.TexCoord(1.0f, 1.0f);
             gl.Vertex(sirina, -visina);
+
+            gl.TexCoord(1.0f, 0.0f);
             gl.Vertex(sirina, -sirina);
             gl.End();
+            gl.PopMatrix();
+            // Vracam se na model view matricu, kako bih dalje objekte scene dirao a ne teksturu
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
             gl.PopMatrix();
         }
@@ -607,16 +637,21 @@ namespace AssimpSample
             var koeficijentVelicinePodloge = 5;
             var baznaKordinata = 10.0f;
             gl.Color(0.72f, 1.0f, 0.8f);        // rgb(186,255,205) - ali Color metoda ocekuje vrednosti od 0-1 pa sam skalirao na taj opseg
-
             gl.FrontFace(OpenGL.GL_CCW);
 
-            gl.BindTexture(OpenGL.GL_TEXTURE_2D, m_textures[(int)TextureObjects.Floor]);
+            // Prelazim na matricu teksture kako bih skalirao teksturu
+            gl.MatrixMode(OpenGL.GL_TEXTURE);
+            gl.PushMatrix();
+            var koficijentSkaliranjaTeksture = 3f;
+            gl.Scale(koficijentSkaliranjaTeksture, koficijentSkaliranjaTeksture, koficijentSkaliranjaTeksture);
+
+            gl.BindTexture(OpenGL.GL_TEXTURE_2D, m_textures[(int)TextureObjects.Grass]);
             gl.Begin(OpenGL.GL_QUADS);
             gl.Normal(0.0f, 1.0f, 0.0f);
 
             gl.TexCoord(0.0f, 0.0f);
             gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
-            
+
             gl.TexCoord(0.0f, 1.0f);
             gl.Vertex(baznaKordinata * koeficijentVelicinePodloge, -baznaKordinata * koeficijentVelicinePodloge);
 
@@ -626,6 +661,10 @@ namespace AssimpSample
             gl.TexCoord(1.0f, 0.0f);
             gl.Vertex(-baznaKordinata * koeficijentVelicinePodloge, baznaKordinata * koeficijentVelicinePodloge);
             gl.End();
+
+            gl.PopMatrix();
+            // Vracam se na model view matricu, kako bih dalje objekte scene dirao a ne teksturu
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
             gl.PopMatrix();
         }

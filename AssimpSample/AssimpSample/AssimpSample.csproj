@@ -134,6 +134,9 @@
     <Resource Include="3D Models\Duck\duckCM.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="images\grass.jpg" />
+    <Resource Include="images\fence.png" />
+    <Resource Include="images\pavedMud.jpg" />
     <Resource Include="3D Models\Castle\13020_Aquarium_Castle_diff.jpg" />
     <Content Include="AssimpLib\Assimp32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
