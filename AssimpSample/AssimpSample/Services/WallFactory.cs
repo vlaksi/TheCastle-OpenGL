@@ -19,7 +19,7 @@ namespace AssimpSample.Services
         public void RenderovanjeZidaDesnoOdDvorca(OpenGL gl, int transliranjeDesnogZida=0)
         {
             gl.PushMatrix();
-            gl.Scale(1.0f, 26.0f, 7.0f);
+            gl.Scale(1.0f, 26.0f, 3.0f);
             gl.Translate(25.0f + transliranjeDesnogZida, 0.0f, 1.0f);
 
             Cube zidDesnoOdDvorca = new Cube();
@@ -31,7 +31,7 @@ namespace AssimpSample.Services
         {
             gl.PushMatrix();
             gl.Rotate(rotacijaLevogZida,0.0f,0.0f,1.0f);
-            gl.Scale(1.0f, -26.0f, 7.0f);
+            gl.Scale(1.0f, -26.0f, 3.0f);
             gl.Translate(-25.0f, 0.0f, 1.0f);
 
             Cube zidLevoOdDvorca = new Cube();
@@ -42,7 +42,7 @@ namespace AssimpSample.Services
         public void RenderovanjeZidaIzaDvorca(OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Scale(25.0f, 1.0f, 7.0f);
+            gl.Scale(26.0f, 1.0f, 3.0f);
             gl.Translate(0.0f, 25.0f, 1.0f);
 
             Cube zidIzaDvorca = new Cube();

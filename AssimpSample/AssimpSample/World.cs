@@ -477,7 +477,8 @@ namespace AssimpSample
             float[] global_ambient = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
             gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, global_ambient);
 
-            float[] light0pos = new float[] { 100.0f, 1.0f, -7100.0f, 1.0f };
+            var scenaPomeraPoZ = m_sceneDistance; // tj. 7000
+            float[] light0pos = new float[] { -10.0f, 100.0f, scenaPomeraPoZ, 1.0f };
             float[] light0ambient = new float[] { 0.4f, 0.4f, 0.4f, 1.0f };
             float[] light0diffuse = new float[] { 0.3f, 0.3f, 0.3f, 1.0f };
             float[] light0specular = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
@@ -671,6 +672,8 @@ namespace AssimpSample
 
         private void IscrtajDvorac(OpenGL gl)
         {
+
+            gl.Color(0.9,0.9,0.9,1.0);
             gl.PushMatrix();
             var faktorSkaliranjaDvorca = 10.0f;
             gl.Translate(0.0f,0.0f,-0.2f);
@@ -683,12 +686,13 @@ namespace AssimpSample
         private void IscrtajStrele(OpenGL gl, float faktorSkaliranjaStrele = 1f)
         {
             int brojStrela = 10;
+            var mojFaktorSkaliranja = 4.0f;
             for (float idxStrele = 1; idxStrele <= brojStrela; idxStrele++) // float kako ne bih gubio decimale pri deljenju
             {
                 gl.PushMatrix();
                 float jedinstveniPomerajStrele;
 
-                gl.Scale(faktorSkaliranjaStrele * 5.0f, faktorSkaliranjaStrele *5.0f, faktorSkaliranjaStrele*5.0f); // povecavam malo strelu, jer je dosta mala
+                gl.Scale(faktorSkaliranjaStrele * mojFaktorSkaliranja, faktorSkaliranjaStrele * mojFaktorSkaliranja, faktorSkaliranjaStrele* mojFaktorSkaliranja); // povecavam malo strelu, jer je dosta mala
 
                 jedinstveniPomerajStrele = PomerajStrele;
                 jedinstveniPomerajStrele = Clamp(jedinstveniPomerajStrele, 0f, 3000f);
