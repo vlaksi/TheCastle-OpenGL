@@ -289,13 +289,27 @@ namespace AssimpSample
 
             if (ucitaniTekst.Length >= 1 & ucitaniTekst.Length <= 3)
             {
-                if (!IsInputNumber(ucitaniTekst)) return;
-                var faktorSkaliranja = ParsirajInput(ucitaniTekst, negativanBroj);
-                PostaviVrednostSkaliranja(faktorSkaliranja);
+                if (IsNumberWithDigit(ucitaniTekst))
+                {
+                    var faktorSkaliranjaSaTackom = float.Parse(ucitaniTekst);
+                    PostaviVrednostSkaliranja(faktorSkaliranjaSaTackom);
+                }
+                else
+                {
+                    if (!IsInputNumber(ucitaniTekst)) return;
+                    var faktorSkaliranja = ParsirajInput(ucitaniTekst, negativanBroj);
+                    PostaviVrednostSkaliranja(faktorSkaliranja);
+                }
             }
         }
 
-        private void PostaviVrednostSkaliranja(int vrednostFaktoraSKaliranja)
+        private bool IsNumberWithDigit(string ucitaniTekst)
+        {
+            if (ucitaniTekst.Contains('.')) return true;
+            return false;
+        }
+
+        private void PostaviVrednostSkaliranja(float vrednostFaktoraSKaliranja)
         {
             if (m_world != null)
                 m_world.FaktorSkaliranjaStrele += vrednostFaktoraSKaliranja;

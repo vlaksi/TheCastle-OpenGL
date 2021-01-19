@@ -115,6 +115,7 @@
     <None Include="3D Models\Castle\CastleModel.obj" />
     <None Include="3D Models\Duck\duck.dae" />
     <None Include="3D Models\Duck\Thumbs.db" />
+    <None Include="3D Models\NewArrow\Arrow.obj" />
     <None Include="3D Models\NewCastle\castle.mtl" />
     <None Include="3D Models\NewCastle\castle.obj" />
     <None Include="3D Models\Touareg\Touareg.3DS">
@@ -144,6 +145,11 @@
     <Resource Include="3D Models\NewCastle\Castle Interior Texture.jpg" />
     <Resource Include="3D Models\NewCastle\Ground and Fountain Texture.jpg" />
     <Resource Include="3D Models\NewCastle\Towers Doors and Windows Texture.jpg" />
+    <Resource Include="3D Models\NewArrow\arrow_obj_initialShadingGroup_BaseColor.png" />
+    <Resource Include="3D Models\NewArrow\arrow_obj_initialShadingGroup_Height.png" />
+    <Resource Include="3D Models\NewArrow\arrow_obj_initialShadingGroup_Metallic.png" />
+    <Resource Include="3D Models\NewArrow\arrow_obj_initialShadingGroup_Roughness.png" />
+    <Resource Include="3D Models\NewArrow\veren.tga.png" />
     <Content Include="AssimpLib\Assimp32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

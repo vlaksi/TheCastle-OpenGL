@@ -48,7 +48,7 @@ namespace AssimpSample
         // parametri za interakciju preko wpf kontrola
         public int TranslacijaDesnogZida { get; set; }
         public int RotacijaLevogZida { get; set; }
-        public int FaktorSkaliranjaStrele { get; set; }
+        public float FaktorSkaliranjaStrele { get; set; }
 
         /// <summary>
         ///	 Identifikatori tekstura za jednostavniji pristup teksturama
@@ -190,8 +190,8 @@ namespace AssimpSample
         {
 
             // Inicijalizacija scene za arrow i castle: OVDE SAM ISKULIRAO STA SE PROSLEDI IZ MAIN-A ZA PUTANJE, JER MORAM DVE SCENE TJ DVA MODELA UCITATI
-            var scenePathForArrow = scenePath + "\\Arrow";
-            sceneFileName = "Arrow.dae";
+            var scenePathForArrow = scenePath + "\\NewArrow";
+            sceneFileName = "Arrow.obj";
             this.m_scene_arrow = new AssimpScene(scenePathForArrow, sceneFileName, gl);
 
             var scenePathForCastle = scenePath + "\\NewCastle";
@@ -680,7 +680,7 @@ namespace AssimpSample
             gl.PopMatrix();
         }
 
-        private void IscrtajStrele(OpenGL gl, int faktorSkaliranjaStrele = 1)
+        private void IscrtajStrele(OpenGL gl, float faktorSkaliranjaStrele = 1f)
         {
             int brojStrela = 10;
             for (float idxStrele = 1; idxStrele <= brojStrela; idxStrele++) // float kako ne bih gubio decimale pri deljenju
@@ -688,13 +688,14 @@ namespace AssimpSample
                 gl.PushMatrix();
                 float jedinstveniPomerajStrele;
 
-                gl.Scale(faktorSkaliranjaStrele * 5f, faktorSkaliranjaStrele * 5.0f, faktorSkaliranjaStrele * 5f); // povecavam malo strelu, jer je dosta mala
+                gl.Scale(faktorSkaliranjaStrele * 5.0f, faktorSkaliranjaStrele *5.0f, faktorSkaliranjaStrele*5.0f); // povecavam malo strelu, jer je dosta mala
 
                 jedinstveniPomerajStrele = PomerajStrele;
                 jedinstveniPomerajStrele = Clamp(jedinstveniPomerajStrele, 0f, 3000f);
 
                 gl.Translate(-2.0f + idxStrele / 3, -jedinstveniPomerajStrele, 1.0f);
-                gl.Rotate(90.0f, 1.0f, 0.0f, 0.0f);
+                gl.Rotate(90.0f, 0.0f, 0.0f, 1.0f); // podizem strele
+                gl.Rotate(180.0f,0.0f,1.0f,0.0f); // okrecem ih ka meni
 
                 m_scene_arrow.Draw();
 
