@@ -672,10 +672,10 @@ namespace AssimpSample
         private void IscrtajDvorac(OpenGL gl)
         {
             gl.PushMatrix();
-            var faktorSkaliranjaStrele = 10.0f;
-            gl.Translate(0.0f,0.0f,2.0f);
+            var faktorSkaliranjaDvorca = 10.0f;
+            gl.Translate(0.0f,0.0f,-0.2f);
             gl.Rotate(90.0f,1.0f,0.0f,0.0f);
-            gl.Scale(faktorSkaliranjaStrele * 5f, faktorSkaliranjaStrele * 5.0f, faktorSkaliranjaStrele * 5f);
+            gl.Scale(faktorSkaliranjaDvorca * 5f, faktorSkaliranjaDvorca * 5.0f, faktorSkaliranjaDvorca * 5f);
             m_scene_castle.Draw();
             gl.PopMatrix();
         }
@@ -693,7 +693,7 @@ namespace AssimpSample
                 jedinstveniPomerajStrele = PomerajStrele;
                 jedinstveniPomerajStrele = Clamp(jedinstveniPomerajStrele, 0f, 3000f);
 
-                gl.Translate(0.0f, -jedinstveniPomerajStrele, idxStrele / 3);
+                gl.Translate(-2.0f + idxStrele / 3, -jedinstveniPomerajStrele, 1.0f);
                 gl.Rotate(90.0f, 1.0f, 0.0f, 0.0f);
 
                 m_scene_arrow.Draw();
