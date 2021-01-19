@@ -110,45 +110,39 @@ namespace AssimpSample
                     break;
                 case Key.F4: this.Close(); break;
                 case Key.I:
-                    //if (CoordinateValidator.ValidDownRotate(m_world.RotationX))
-                    //    m_world.RotationX -= 5.0f;
-                    //else
-                    //    m_world.RotationX -= -5.0f;
                     if (!ZabranaInterakcije)
                     {
-                        m_world.RotationX -= 5.0f;
+                        if (CoordinateValidator.ValidDownRotate(m_world.RotationX))
+                            m_world.RotationX -= 5.0f;
+                        else
+                            m_world.RotationX -= -5.0f;
                     }
                     break;
                 case Key.K:
-                    //if (CoordinateValidator.ValidUpRotate(m_world.RotationX))
-                    //    m_world.RotationX += 5.0f;
-                    //else
-                    //    m_world.RotationX += -5.0f;
                     if (!ZabranaInterakcije)
                     {
-                        m_world.RotationX += 5.0f;
+                        if (CoordinateValidator.ValidUpRotate(m_world.RotationX))
+                            m_world.RotationX += 5.0f;
+                        else
+                            m_world.RotationX += -5.0f;
                     }
                     break;
                 case Key.J:
-                    //if (CoordinateValidator.ValidLeftRotate(m_world.RotationY))
-                    //    m_world.RotationY -= 5.0f;
-                    //else
-                    //    m_world.RotationY += 5.0f;
-
                     if (!ZabranaInterakcije)
                     {
-                        m_world.RotationY -= 5.0f;
+                        if (CoordinateValidator.ValidLeftRotate(m_world.RotationY))
+                            m_world.RotationY -= 5.0f;
+                        else
+                            m_world.RotationY += 5.0f;
                     }
                     break;
                 case Key.L:
-                    //if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
-                    //    m_world.RotationY += 5.0f;
-                    //else
-                    //    m_world.RotationY -= 5.0f;
                     if (!ZabranaInterakcije)
                     {
+                    if (CoordinateValidator.ValidRightRotate(m_world.RotationY))
                         m_world.RotationY += 5.0f;
-
+                    else
+                        m_world.RotationY -= 5.0f;
                     }
                     break;
                 case Key.Add:
